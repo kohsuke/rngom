@@ -8,8 +8,8 @@ import java.util.Map;
  *
  * @author Kohsuke Kawaguchi (kk@kohsuke.org)
  */
-public class DGrammarPattern extends DPattern {
-    private final Map patterns = new HashMap();
+public class DGrammarPattern extends DPattern implements Iterable<DDefine> {
+    private final Map<String,DDefine> patterns = new HashMap<String,DDefine>();
 
     DPattern start;
 
@@ -27,7 +27,7 @@ public class DGrammarPattern extends DPattern {
      *      null if not found.
      */
     public DDefine get( String name ) {
-        return (DDefine)patterns.get(name);
+        return patterns.get(name);
     }
 
     DDefine getOrAdd( String name ) {
@@ -43,7 +43,7 @@ public class DGrammarPattern extends DPattern {
     /**
      * Iterates all the {@link DDefine}s in this grammar.
      */
-    public Iterator iterator() {
+    public Iterator<DDefine> iterator() {
         return patterns.values().iterator();
     }
 
@@ -51,7 +51,7 @@ public class DGrammarPattern extends DPattern {
         return start.isNullable();
     }
 
-    public Object accept( DPatternVisitor visitor ) {
+    public <V> V accept( DPatternVisitor<V> visitor ) {
         return visitor.onGrammar(this);
     }
 }
