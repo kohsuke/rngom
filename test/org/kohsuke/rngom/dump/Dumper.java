@@ -3,7 +3,6 @@ package org.kohsuke.rngom.dump;
 import org.kohsuke.rngom.ast.builder.Annotations;
 import org.kohsuke.rngom.ast.builder.BuildException;
 import org.kohsuke.rngom.ast.builder.CommentList;
-import org.kohsuke.rngom.ast.builder.Context;
 import org.kohsuke.rngom.ast.builder.DataPatternBuilder;
 import org.kohsuke.rngom.ast.builder.ElementAnnotationBuilder;
 import org.kohsuke.rngom.ast.builder.Grammar;
@@ -14,6 +13,7 @@ import org.kohsuke.rngom.ast.om.Location;
 import org.kohsuke.rngom.ast.om.ParsedElementAnnotation;
 import org.kohsuke.rngom.ast.om.ParsedNameClass;
 import org.kohsuke.rngom.ast.om.ParsedPattern;
+import org.kohsuke.rngom.parse.Context;
 import org.kohsuke.rngom.parse.IllegalSchemaException;
 import org.kohsuke.rngom.parse.Parseable;
 

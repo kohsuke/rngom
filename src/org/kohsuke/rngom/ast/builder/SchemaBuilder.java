@@ -4,6 +4,7 @@ import org.kohsuke.rngom.ast.om.Location;
 import org.kohsuke.rngom.ast.om.ParsedElementAnnotation;
 import org.kohsuke.rngom.ast.om.ParsedNameClass;
 import org.kohsuke.rngom.ast.om.ParsedPattern;
+import org.kohsuke.rngom.parse.*;
 import org.kohsuke.rngom.parse.IllegalSchemaException;
 import org.kohsuke.rngom.parse.Parseable;
 

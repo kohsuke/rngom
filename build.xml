@@ -69,7 +69,7 @@
 			<zipfileset prefix="rngom-${DSTAMP}" dir="."
 				includes="src/**/*, test/**/*"
 				excludes="**/CVS" />
-			<zipfileset prefix="rngom-${DSTAMP}" dir="doc"
+			<zipfileset prefix="rngom-${DSTAMP}" dir="../www/doc"
 				includes="*" excludes="CVS" />
 		</zip>
 	</target>

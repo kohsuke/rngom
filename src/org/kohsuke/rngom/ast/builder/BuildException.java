@@ -1,5 +1,12 @@
 package org.kohsuke.rngom.ast.builder;
 
+/**
+ * Signals an error while building schemas.
+ * 
+ * <p>
+ * {@link SchemaBuilder} can throw this exception to
+ * abort the parsing in the middle.
+ */
 public class BuildException extends RuntimeException {
     private final Throwable cause;
     public BuildException(Throwable cause) {

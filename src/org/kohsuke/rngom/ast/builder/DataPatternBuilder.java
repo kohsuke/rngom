@@ -3,6 +3,7 @@ package org.kohsuke.rngom.ast.builder;
 import org.kohsuke.rngom.ast.om.Location;
 import org.kohsuke.rngom.ast.om.ParsedElementAnnotation;
 import org.kohsuke.rngom.ast.om.ParsedPattern;
+import org.kohsuke.rngom.parse.*;
 
 
 public interface DataPatternBuilder {
