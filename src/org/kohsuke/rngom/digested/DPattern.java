@@ -19,8 +19,6 @@ public abstract class DPattern implements ParsedPattern {
     DPattern next;
     DPattern prev;
 
-    DPattern parent; // TODO: does this make sense?
-
     public DPattern next() {
         return next;
     }

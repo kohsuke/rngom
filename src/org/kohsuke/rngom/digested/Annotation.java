@@ -30,11 +30,9 @@ class Annotation implements Annotations {
     }
 
     public void addComment(CommentList comments) throws BuildException {
-        a.contents.add(comments);
     }
 
     public void addLeadingComment(CommentList comments) throws BuildException {
-        a.contents.add(comments);
     }
 
     DAnnotation getResult() {

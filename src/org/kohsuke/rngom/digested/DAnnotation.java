@@ -24,7 +24,7 @@ public class DAnnotation {
     final Map attributes = new HashMap();
 
     /**
-     * List of nested elements and comments.
+     * List of nested elements.
      */
     final List contents = new ArrayList();
 

@@ -111,7 +111,7 @@ public class DSchemaBuilderImpl implements SchemaBuilder {
     }
 
     public Grammar makeGrammar(Scope parent) {
-        return new GrammarBuilderImpl(parent);
+        return new GrammarBuilderImpl(new DGrammarPattern(),parent,this);
     }
 
     public ParsedPattern annotate(ParsedPattern p, Annotations anno) throws BuildException {
@@ -147,7 +147,7 @@ public class DSchemaBuilderImpl implements SchemaBuilder {
     }
 
     public CommentList makeCommentList() {
-        return new CommentListImpl();
+        return null;
     }
 
     public ParsedPattern makeErrorPattern() {
@@ -155,7 +155,7 @@ public class DSchemaBuilderImpl implements SchemaBuilder {
     }
 
     public boolean usesComments() {
-        return true;
+        return false;
     }
 
     public ParsedPattern expandPattern(ParsedPattern p) throws BuildException, IllegalSchemaException {

@@ -23,9 +23,25 @@ public interface Parseable {
      */
     ParsedPattern parse(SchemaBuilder sb) throws BuildException, IllegalSchemaException;
 
+    /**
+     * Called from {@link Include} in response to
+     * {@link Include#endInclude(Parseable, String, String, Location, Annotations)}
+     * to parse the included grammar.
+     *
+     * @param g
+     *      receives the events from the included grammar.
+     */
     ParsedPattern parseInclude(String uri, SchemaBuilder f, IncludedGrammar g, String inheritedNs)
         throws BuildException, IllegalSchemaException;
-    
+
+    /**
+     * Called from {@link SchemaBuilder} in response to
+     * {@link SchemaBuilder#makeExternalRef(Parseable, String, String, Scope, Location, Annotations)}
+     * to parse the referenced grammar.
+     *
+     * @param f
+     *      receives the events from the referenced grammar.
+     */
     ParsedPattern parseExternal(String uri, SchemaBuilder f, Scope s, String inheritedNs)
         throws BuildException, IllegalSchemaException;
 }

@@ -426,7 +426,7 @@ public class SchemaBuilderImpl implements SchemaBuilder, ElementAnnotationBuilde
     }
 
     public ParsedPattern endIncludedGrammar(Location loc, Annotations anno) throws BuildException {
-      return null;
+        return null;
     }
 
     public void define(String name, GrammarSection.Combine combine, ParsedPattern pattern, Location loc, Annotations anno)

@@ -26,10 +26,6 @@ public abstract class DContainerPattern extends DPattern {
     }
 
     void add( DPattern child ) {
-        if(child.parent!=null)
-            throw new IllegalStateException();
-        child.parent = this;
-
         if(tail==null) {
             child.prev = child.next = null;
             head = tail = child;

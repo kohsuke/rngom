@@ -16,17 +16,20 @@ import org.kohsuke.rngom.ast.om.ParsedPattern;
  */
 class GrammarBuilderImpl implements Grammar, Div {
 
-    private final DGrammarPattern p;
+    protected final DGrammarPattern grammar;
 
-    private final Scope parent;
+    protected final Scope parent;
 
-    public GrammarBuilderImpl( Scope parent ) {
+    protected final DSchemaBuilderImpl sb;
+
+    public GrammarBuilderImpl(DGrammarPattern p, Scope parent, DSchemaBuilderImpl sb) {
+        this.grammar = p;
         this.parent = parent;
-        this.p = new DGrammarPattern();
+        this.sb = sb;
     }
 
     public ParsedPattern endGrammar(Location loc, Annotations anno) throws BuildException {
-        return p;
+        return grammar;
     }
 
     public void endDiv(Location loc, Annotations anno) throws BuildException {
@@ -34,10 +37,10 @@ class GrammarBuilderImpl implements Grammar, Div {
 
     public void define(String name, Combine combine, ParsedPattern pattern, Location loc, Annotations anno) throws BuildException {
         if(name==START)
-            p.start = (DPattern)pattern;
+            grammar.start = (DPattern)pattern;
         else {
             // TODO: handle combine
-            DDefine d = p.getOrAdd(name);
+            DDefine d = grammar.getOrAdd(name);
             d.setPattern( (DPattern) pattern );
             if(anno!=null)
                 d.annotation = ((Annotation)anno).getResult();
@@ -49,7 +52,6 @@ class GrammarBuilderImpl implements Grammar, Div {
     }
 
     public void topLevelComment(CommentList comments) throws BuildException {
-        // TODO
     }
 
     public Div makeDiv() {
@@ -57,8 +59,7 @@ class GrammarBuilderImpl implements Grammar, Div {
     }
 
     public Include makeInclude() {
-        // TODO
-        return null;
+        return new IncludeImpl(grammar,parent,sb);
     }
 
     public ParsedPattern makeParentRef(String name, Location loc, Annotations anno) throws BuildException {
@@ -66,6 +67,6 @@ class GrammarBuilderImpl implements Grammar, Div {
     }
 
     public ParsedPattern makeRef(String name, Location loc, Annotations anno) throws BuildException {
-        return DSchemaBuilderImpl.wrap( new DRefPattern(p.getOrAdd(name)), loc, anno );
+        return DSchemaBuilderImpl.wrap( new DRefPattern(grammar.getOrAdd(name)), loc, anno );
     }
 }
