@@ -56,7 +56,7 @@ public class ElementPattern extends Pattern {
       expanded = true;
       p = p.expand(b);
       if (p.isNotAllowed())
-	nameClass = NameClass.NULL;
+        nameClass = NameClass.NULL;
     }
     return this;
   }

@@ -56,7 +56,13 @@ public abstract class Pattern implements ParsedPattern {
     return this;
   }
 
-  final boolean isNullable() {
+  /**
+   * Returns true if the pattern is nullable.
+   *
+   * <p>
+   * A pattern is nullable when it can match the empty sequence.
+   */
+  public final boolean isNullable() {
     return nullable;
   }
 
