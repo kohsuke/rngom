@@ -3,6 +3,7 @@ package org.kohsuke.rngom.ast.builder;
 import org.kohsuke.rngom.ast.om.Location;
 import org.kohsuke.rngom.ast.om.ParsedElementAnnotation;
 import org.kohsuke.rngom.ast.om.ParsedNameClass;
+import org.kohsuke.rngom.ast.om.ParsedPattern;
 
 
 /**
@@ -10,28 +11,34 @@ import org.kohsuke.rngom.ast.om.ParsedNameClass;
  * @author
  *      Kohsuke Kawaguchi (kk@kohsuke.org)
  */
-public interface NameClassBuilder {
-    ParsedNameClass annotate(ParsedNameClass nc, Annotations anno) throws BuildException;
-    ParsedNameClass annotateAfter(ParsedNameClass nc, ParsedElementAnnotation e) throws BuildException;
-    ParsedNameClass commentAfter(ParsedNameClass nc, CommentList comments) throws BuildException;
-    ParsedNameClass makeChoice(ParsedNameClass[] nameClasses, int nNameClasses, Location loc, Annotations anno);
+public interface NameClassBuilder<
+    N extends ParsedNameClass,
+    E extends ParsedElementAnnotation,
+    L extends Location,
+    A extends Annotations<E,L,CL>,
+    CL extends CommentList<L> > {
+
+    N annotate(N nc, A anno) throws BuildException;
+    N annotateAfter(N nc, E e) throws BuildException;
+    N commentAfter(N nc, CL comments) throws BuildException;
+    N makeChoice(N[] nameClasses, int nNameClasses, L loc, A anno);
 
 // should be handled by parser - KK
 //    static final String INHERIT_NS = new String("#inherit");
 
 // similarly, xmlns:* attribute should be rejected by the parser -KK
     
-    ParsedNameClass makeName(String ns, String localName, String prefix, Location loc, Annotations anno);
-    ParsedNameClass makeNsName(String ns, Location loc, Annotations anno);
+    N makeName(String ns, String localName, String prefix, L loc, A anno);
+    N makeNsName(String ns, L loc, A anno);
     /**
      * Caller must enforce constraints on except.
      */
-    ParsedNameClass makeNsName(String ns, ParsedNameClass except, Location loc, Annotations anno);
-    ParsedNameClass makeAnyName(Location loc, Annotations anno);
+    N makeNsName(String ns, N except, L loc, A anno);
+    N makeAnyName(L loc, A anno);
     /**
      * Caller must enforce constraints on except.
      */
-    ParsedNameClass makeAnyName(ParsedNameClass except, Location loc, Annotations anno);
+    N makeAnyName(N except, L loc, A anno);
 
-    ParsedNameClass makeErrorNameClass();
+    N makeErrorNameClass();
 }

@@ -6,7 +6,6 @@ import org.kohsuke.rngom.ast.builder.CommentList;
 import org.kohsuke.rngom.ast.builder.NameClassBuilder;
 import org.kohsuke.rngom.ast.om.Location;
 import org.kohsuke.rngom.ast.om.ParsedElementAnnotation;
-import org.kohsuke.rngom.ast.om.ParsedNameClass;
 
 
 /**
@@ -14,49 +13,54 @@ import org.kohsuke.rngom.ast.om.ParsedNameClass;
  * @author
  *      Kohsuke Kawaguchi (kk@kohsuke.org)
  */
-public class NameClassBuilderImpl implements NameClassBuilder {
-    public ParsedNameClass makeChoice(ParsedNameClass[] nameClasses, int nNameClasses, Location loc, Annotations anno) {
+public class NameClassBuilderImpl<
+    E extends ParsedElementAnnotation,
+    L extends Location,
+    A extends Annotations<E,L,CL>,
+    CL extends CommentList<L>> implements NameClassBuilder<NameClass,E,L,A,CL> {
+    
+    public NameClass makeChoice(NameClass[] nameClasses, int nNameClasses, L loc, A anno) {
       if (nNameClasses <= 0)
         throw new IllegalArgumentException();
-      NameClass result = (NameClass)nameClasses[0];
+      NameClass result = nameClasses[0];
       for (int i = 1; i < nNameClasses; i++)
-        result = new ChoiceNameClass(result, (NameClass)nameClasses[i]);
+        result = new ChoiceNameClass(result, nameClasses[i]);
       return result;
     }
 
-    public ParsedNameClass makeName(String ns, String localName, String prefix, Location loc, Annotations anno) {
+    public NameClass makeName(String ns, String localName, String prefix, L loc, A anno) {
       return new SimpleNameClass(ns, localName);
     }
 
-    public ParsedNameClass makeNsName(String ns, Location loc, Annotations anno) {
+    public NameClass makeNsName(String ns, L loc, A anno) {
       return new NsNameClass(ns);
     }
 
-    public ParsedNameClass makeNsName(String ns, ParsedNameClass except, Location loc, Annotations anno) {
-      return new NsNameExceptNameClass(ns, (NameClass)except);
+    public NameClass makeNsName(String ns, NameClass except, L loc, A anno) {
+      return new NsNameExceptNameClass(ns, except);
     }
 
-    public ParsedNameClass makeAnyName(Location loc, Annotations anno) {
+    public NameClass makeAnyName(L loc, A anno) {
       return NameClass.ANY;
     }
 
-    public ParsedNameClass makeAnyName(ParsedNameClass except, Location loc, Annotations anno) {
-      return new AnyNameExceptNameClass((NameClass)except);
+    public NameClass makeAnyName(NameClass except, L loc, A anno) {
+      return new AnyNameExceptNameClass(except);
     }
 
-    public ParsedNameClass makeErrorNameClass() {
+    public NameClass makeErrorNameClass() {
         return NameClass.NULL;
     }
     
-    public ParsedNameClass annotate(ParsedNameClass nc, Annotations anno) throws BuildException {
+    public NameClass annotate(NameClass nc, A anno) throws BuildException {
       return nc;
     }
     
-    public ParsedNameClass annotateAfter(ParsedNameClass nc, ParsedElementAnnotation e) throws BuildException {
+    public NameClass annotateAfter(NameClass nc, E e) throws BuildException {
       return nc;
     }
     
-    public ParsedNameClass commentAfter(ParsedNameClass nc, CommentList comments) throws BuildException {
+    public NameClass commentAfter(NameClass nc, CL comments) throws BuildException {
       return nc;
     }
 

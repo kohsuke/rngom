@@ -9,7 +9,14 @@ import org.kohsuke.rngom.parse.IllegalSchemaException;
 import org.kohsuke.rngom.parse.Parseable;
 
 // TODO: define combine error check should be done by the parser.
-public interface SchemaBuilder {
+public interface SchemaBuilder<
+    N extends ParsedNameClass,
+    P extends ParsedPattern,
+    E extends ParsedElementAnnotation,
+    L extends Location,
+    A extends Annotations<E,L,CL>,
+    CL extends CommentList<L>> {
+
     /**
      * Returns the {@link NameClassBuilder}, which is used to build name
      * classes for this {@link SchemaBuilder}. The
@@ -19,50 +26,38 @@ public interface SchemaBuilder {
      * @return always return a non-null valid object. This method can (and
      *         probably should) always return the same object.
      */
-    NameClassBuilder getNameClassBuilder() throws BuildException;
+    NameClassBuilder<N,E,L,A,CL> getNameClassBuilder() throws BuildException;
 
-    ParsedPattern makeChoice(ParsedPattern[] patterns, int nPatterns,
-        Location loc, Annotations anno) throws BuildException;
+    P makeChoice(P[] patterns, int nPatterns, L loc, A anno) throws BuildException;
 
-    ParsedPattern makeInterleave(ParsedPattern[] patterns, int nPatterns,
-        Location loc, Annotations anno) throws BuildException;
+    P makeInterleave(P[] patterns, int nPatterns, L loc, A anno) throws BuildException;
 
-    ParsedPattern makeGroup(ParsedPattern[] patterns, int nPatterns,
-        Location loc, Annotations anno) throws BuildException;
+    P makeGroup(P[] patterns, int nPatterns, L loc, A anno) throws BuildException;
 
-    ParsedPattern makeOneOrMore(ParsedPattern p, Location loc, Annotations anno)
-        throws BuildException;
+    P makeOneOrMore(P p, L loc, A anno) throws BuildException;
 
-    ParsedPattern makeZeroOrMore(ParsedPattern p, Location loc, Annotations anno)
-        throws BuildException;
+    P makeZeroOrMore(P p, L loc, A anno) throws BuildException;
 
-    ParsedPattern makeOptional(ParsedPattern p, Location loc, Annotations anno)
-        throws BuildException;
+    P makeOptional(P p, L loc, A anno) throws BuildException;
 
-    ParsedPattern makeList(ParsedPattern p, Location loc, Annotations anno)
-        throws BuildException;
+    P makeList(P p, L loc, A anno) throws BuildException;
 
-    ParsedPattern makeMixed(ParsedPattern p, Location loc, Annotations anno)
-        throws BuildException;
+    P makeMixed(P p, L loc, A anno) throws BuildException;
 
-    ParsedPattern makeEmpty(Location loc, Annotations anno);
+    P makeEmpty(L loc, A anno);
 
-    ParsedPattern makeNotAllowed(Location loc, Annotations anno);
+    P makeNotAllowed(L loc, A anno);
 
-    ParsedPattern makeText(Location loc, Annotations anno);
+    P makeText(L loc, A anno);
 
-    ParsedPattern makeAttribute(ParsedNameClass nc, ParsedPattern p,
-        Location loc, Annotations anno) throws BuildException;
+    P makeAttribute(N nc, P p, L loc, A anno) throws BuildException;
 
-    ParsedPattern makeElement(ParsedNameClass nc, ParsedPattern p,
-        Location loc, Annotations anno) throws BuildException;
+    P makeElement(N nc, P p, L loc, A anno) throws BuildException;
 
-    DataPatternBuilder makeDataPatternBuilder(String datatypeLibrary,
-        String type, Location loc) throws BuildException;
+    DataPatternBuilder makeDataPatternBuilder(String datatypeLibrary, String type, L loc) throws BuildException;
 
-    ParsedPattern makeValue(String datatypeLibrary, String type, String value,
-        Context c, String ns, Location loc, Annotations anno)
-        throws BuildException;
+    P makeValue(String datatypeLibrary, String type, String value,
+            Context c, String ns, L loc, A anno) throws BuildException;
 
     /**
      * 
@@ -77,16 +72,13 @@ public interface SchemaBuilder {
      *      Then when the outer-most {@link Grammar} is created, it will
      *      receive the <tt>null</tt> parent.
      */
-    Grammar makeGrammar(Scope parent);
+    Grammar<P,E,L,A,CL> makeGrammar(Scope<P,E,L,A,CL> parent);
 
-    ParsedPattern annotate(ParsedPattern p, Annotations anno)
-        throws BuildException;
+    P annotate(P p, A anno) throws BuildException;
 
-    ParsedPattern annotateAfter(ParsedPattern p, ParsedElementAnnotation e)
-        throws BuildException;
+    P annotateAfter(P p, E e) throws BuildException;
 
-    ParsedPattern commentAfter(ParsedPattern p, CommentList comments)
-        throws BuildException;
+    P commentAfter(P p, CL comments) throws BuildException;
 
     /**
      * 
@@ -98,21 +90,20 @@ public interface SchemaBuilder {
      *      See {@link #makeGrammar(Scope)} for more details about
      *      when this parameter can be null.
      */
-    ParsedPattern makeExternalRef(Parseable current, String uri, String ns, Scope scope,
-        Location loc, Annotations anno) throws BuildException,
-        IllegalSchemaException;
+    P makeExternalRef(Parseable current, String uri, String ns, Scope<P,E,L,A,CL> scope,
+        L loc, A anno) throws BuildException, IllegalSchemaException;
 
-    Location makeLocation(String systemId, int lineNumber, int columnNumber);
+    L makeLocation(String systemId, int lineNumber, int columnNumber);
 
-    Annotations makeAnnotations(CommentList comments, Context context);
+    A makeAnnotations(CL comments, Context context);
 
-    ElementAnnotationBuilder makeElementAnnotationBuilder(String ns,
-        String localName, String prefix, Location loc, CommentList comments,
+    ElementAnnotationBuilder<P,E,L,A,CL> makeElementAnnotationBuilder(String ns,
+        String localName, String prefix, L loc, CL comments,
         Context context);
 
-    CommentList makeCommentList();
+    CL makeCommentList();
 
-    ParsedPattern makeErrorPattern();
+    P makeErrorPattern();
 
     /**
      * If this {@link SchemaBuilder}is interested in actually parsing
@@ -130,5 +121,5 @@ public interface SchemaBuilder {
      * This hook typically allows as {@link SchemaBuilder} to expand
      * notAllowed (if it's following the simplification as in the spec.)
      */
-    ParsedPattern expandPattern( ParsedPattern p ) throws BuildException, IllegalSchemaException;
+    P expandPattern( P p ) throws BuildException, IllegalSchemaException;
 }

@@ -12,7 +12,7 @@ import org.kohsuke.rngom.ast.om.*;
  */
 public interface Parseable {
     /**
-     * Parses this {@link Parsable} object into a RELAX NG pattern.
+     * Parses this {@link Parseable} object into a RELAX NG pattern.
      * 
      * @param sb
      *      The builder of the schema object model. This object

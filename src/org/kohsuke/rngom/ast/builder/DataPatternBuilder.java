@@ -6,12 +6,15 @@ import org.kohsuke.rngom.ast.om.ParsedPattern;
 import org.kohsuke.rngom.parse.*;
 
 
-public interface DataPatternBuilder {
-  void addParam(String name, String value, Context context, String ns, Location loc, Annotations anno)
-    throws BuildException;
-  void annotation(ParsedElementAnnotation ea);
-  ParsedPattern makePattern(Location loc, Annotations anno)
-    throws BuildException;
-  ParsedPattern makePattern(ParsedPattern except, Location loc, Annotations anno)
-    throws BuildException;
+public interface DataPatternBuilder<
+    P extends ParsedPattern,
+    E extends ParsedElementAnnotation,
+    L extends Location,
+    A extends Annotations<E,L,CL>,
+    CL extends CommentList<L>> {
+
+  void addParam(String name, String value, Context context, String ns, L loc, A anno) throws BuildException;
+  void annotation(E ea);
+  ParsedPattern makePattern(L loc, A anno) throws BuildException;
+  ParsedPattern makePattern(P except, L loc, A anno) throws BuildException;
 }

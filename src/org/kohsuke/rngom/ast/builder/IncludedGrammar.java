@@ -2,6 +2,7 @@ package org.kohsuke.rngom.ast.builder;
 
 import org.kohsuke.rngom.ast.om.Location;
 import org.kohsuke.rngom.ast.om.ParsedPattern;
+import org.kohsuke.rngom.ast.om.ParsedElementAnnotation;
 import org.kohsuke.rngom.parse.Parseable;
 
 /**
@@ -10,7 +11,13 @@ import org.kohsuke.rngom.parse.Parseable;
  * This object builds &lt;define>s in the included grammar that
  * override the definitions in the original grammar.
  */
-public interface IncludedGrammar extends GrammarSection, Scope {
+public interface IncludedGrammar<
+    P extends ParsedPattern,
+    E extends ParsedElementAnnotation,
+    L extends Location,
+    A extends Annotations<E,L,CL>,
+    CL extends CommentList<L>> extends GrammarSection<P,E,L,A,CL>, Scope<P,E,L,A,CL> {
+
     /**
      *
      * @return
@@ -21,5 +28,5 @@ public interface IncludedGrammar extends GrammarSection, Scope {
      *      <p>
      *      The value returned from this method will be returned from the abovementioned method.
      */
-    ParsedPattern endIncludedGrammar(Location loc, Annotations anno) throws BuildException;
+    P endIncludedGrammar(L loc, A anno) throws BuildException;
 }

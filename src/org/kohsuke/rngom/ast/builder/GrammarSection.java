@@ -9,7 +9,12 @@ import org.kohsuke.rngom.ast.om.ParsedPattern;
  * <p>
  * {@link Div}, {@link Grammar}, {@link Include}, or {@link IncludedGrammar}.
  */
-public interface GrammarSection {
+public interface GrammarSection<
+    P extends ParsedPattern,
+    E extends ParsedElementAnnotation,
+    L extends Location,
+    A extends Annotations<E,L,CL>,
+    CL extends CommentList<L>> {
 
     static final class Combine {
         private final String name;
@@ -42,15 +47,15 @@ public interface GrammarSection {
     void define(
         String name,
         Combine combine,
-        ParsedPattern pattern,
-        Location loc,
-        Annotations anno)
+        P pattern,
+        L loc,
+        A anno)
         throws BuildException;
-    void topLevelAnnotation(ParsedElementAnnotation ea) throws BuildException;
-    void topLevelComment(CommentList comments) throws BuildException;
-    Div makeDiv();
+    void topLevelAnnotation(E ea) throws BuildException;
+    void topLevelComment(CL comments) throws BuildException;
+    Div<P,E,L,A,CL> makeDiv();
     /**
      * Returns null if already in an include.
      */
-    Include makeInclude();
+    Include<P,E,L,A,CL> makeInclude();
 }
