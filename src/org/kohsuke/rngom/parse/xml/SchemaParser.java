@@ -4,6 +4,8 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Stack;
 import java.util.Vector;
+import java.util.List;
+import java.util.ArrayList;
 
 import org.kohsuke.rngom.ast.builder.Annotations;
 import org.kohsuke.rngom.ast.builder.CommentList;
@@ -465,8 +467,7 @@ class SchemaParser {
   static private final int INIT_CHILD_ALLOC = 5;
 
   abstract class PatternContainerState extends State {
-    ParsedPattern[] childPatterns;
-    int nChildPatterns = 0;
+    List<ParsedPattern> childPatterns;
 
     State createChildState(String localName) throws SAXException {
       State state = (State)patternTable.get(localName);
@@ -477,40 +478,38 @@ class SchemaParser {
       return state.create();
     }
 
-    ParsedPattern buildPattern(ParsedPattern[] patterns, int nPatterns, Location loc, Annotations anno) throws SAXException {
-      if (nPatterns == 1 && anno == null)
-        return patterns[0];
-      return schemaBuilder.makeGroup(patterns, nPatterns, loc, anno);
+    ParsedPattern buildPattern(List<ParsedPattern> patterns, Location loc, Annotations anno) throws SAXException {
+      if (patterns.size() == 1 && anno == null)
+        return patterns.get(0);
+      return schemaBuilder.makeGroup(patterns, loc, anno);
     }
 
     void endChild(ParsedPattern pattern) {
       if (childPatterns == null)
-        childPatterns = new ParsedPattern[INIT_CHILD_ALLOC];
-      else if (nChildPatterns >= childPatterns.length) {
-        ParsedPattern[] newChildPatterns = new ParsedPattern[childPatterns.length * 2];
-        System.arraycopy(childPatterns, 0, newChildPatterns, 0, childPatterns.length);
-        childPatterns = newChildPatterns;
-      }
-      childPatterns[nChildPatterns++] = pattern;
+        childPatterns = new ArrayList<ParsedPattern>(INIT_CHILD_ALLOC);
+      childPatterns.add(pattern);
     }
 
     void endForeignChild(ParsedElementAnnotation ea) {
-      if (nChildPatterns == 0)
+      if (childPatterns == null)
         super.endForeignChild(ea);
-      else
-        childPatterns[nChildPatterns - 1] = schemaBuilder.annotateAfter(childPatterns[nChildPatterns - 1], ea);
+      else {
+        int idx = childPatterns.size()-1;
+        childPatterns.set(idx, schemaBuilder.annotateAfter(childPatterns.get(idx), ea));
+      }
     }
 
     void end() throws SAXException {
-      if (nChildPatterns == 0) {
+      if (childPatterns == null) {
 	error("missing_children");
 	endChild(schemaBuilder.makeErrorPattern());
       }
       if (comments != null) {
-        childPatterns[nChildPatterns - 1] = schemaBuilder.commentAfter(childPatterns[nChildPatterns - 1], comments);
+        int idx = childPatterns.size()-1;
+        childPatterns.set(idx,schemaBuilder.commentAfter(childPatterns.get(idx), comments));
         comments = null;
       }
-      sendPatternToParent(buildPattern(childPatterns, nChildPatterns, startLocation, annotations));
+      sendPatternToParent(buildPattern(childPatterns, startLocation, annotations));
     }
 
     void sendPatternToParent(ParsedPattern p) {
@@ -529,8 +528,8 @@ class SchemaParser {
       return new ZeroOrMoreState();
     }
 
-    ParsedPattern buildPattern(ParsedPattern[] patterns, int nPatterns, Location loc, Annotations anno) throws SAXException {
-      return schemaBuilder.makeZeroOrMore(super.buildPattern(patterns, nPatterns, loc, null), loc, anno);
+    ParsedPattern buildPattern(List<ParsedPattern> patterns, Location loc, Annotations anno) throws SAXException {
+      return schemaBuilder.makeZeroOrMore(super.buildPattern(patterns, loc, null), loc, anno);
     }
   }
 
@@ -538,8 +537,8 @@ class SchemaParser {
     State create() {
       return new OneOrMoreState();
     }
-    ParsedPattern buildPattern(ParsedPattern[] patterns, int nPatterns, Location loc, Annotations anno) throws SAXException {
-      return schemaBuilder.makeOneOrMore(super.buildPattern(patterns, nPatterns, loc, null), loc, anno);
+    ParsedPattern buildPattern(List<ParsedPattern> patterns, Location loc, Annotations anno) throws SAXException {
+      return schemaBuilder.makeOneOrMore(super.buildPattern(patterns, loc, null), loc, anno);
     }
   }
 
@@ -547,8 +546,8 @@ class SchemaParser {
     State create() {
       return new OptionalState();
     }
-    ParsedPattern buildPattern(ParsedPattern[] patterns, int nPatterns, Location loc, Annotations anno) throws SAXException {
-      return schemaBuilder.makeOptional(super.buildPattern(patterns, nPatterns, loc, null), loc, anno);
+    ParsedPattern buildPattern(List<ParsedPattern> patterns, Location loc, Annotations anno) throws SAXException {
+      return schemaBuilder.makeOptional(super.buildPattern(patterns, loc, null), loc, anno);
     }
   }
 
@@ -556,8 +555,8 @@ class SchemaParser {
     State create() {
       return new ListState();
     }
-    ParsedPattern buildPattern(ParsedPattern[] patterns, int nPatterns, Location loc, Annotations anno) throws SAXException {
-      return schemaBuilder.makeList(super.buildPattern(patterns, nPatterns, loc, null), loc, anno);
+    ParsedPattern buildPattern(List<ParsedPattern> patterns, Location loc, Annotations anno) throws SAXException {
+      return schemaBuilder.makeList(super.buildPattern(patterns, loc, null), loc, anno);
     }
   }
 
@@ -565,8 +564,8 @@ class SchemaParser {
     State create() {
       return new ChoiceState();
     }
-    ParsedPattern buildPattern(ParsedPattern[] patterns, int nPatterns, Location loc, Annotations anno) throws SAXException {
-      return schemaBuilder.makeChoice(patterns, nPatterns, loc, anno);
+    ParsedPattern buildPattern(List<ParsedPattern> patterns, Location loc, Annotations anno) throws SAXException {
+      return schemaBuilder.makeChoice(patterns, loc, anno);
     }
   }
 
@@ -574,8 +573,8 @@ class SchemaParser {
     State create() {
       return new InterleaveState();
     }
-    ParsedPattern buildPattern(ParsedPattern[] patterns, int nPatterns, Location loc, Annotations anno) {
-      return schemaBuilder.makeInterleave(patterns, nPatterns, loc, anno);
+    ParsedPattern buildPattern(List<ParsedPattern> patterns, Location loc, Annotations anno) {
+      return schemaBuilder.makeInterleave(patterns, loc, anno);
     }
   }
 
@@ -583,8 +582,8 @@ class SchemaParser {
     State create() {
       return new MixedState();
     }
-    ParsedPattern buildPattern(ParsedPattern[] patterns, int nPatterns, Location loc, Annotations anno) throws SAXException {
-      return schemaBuilder.makeMixed(super.buildPattern(patterns, nPatterns, loc, null), loc, anno);
+    ParsedPattern buildPattern(List<ParsedPattern> patterns, Location loc, Annotations anno) throws SAXException {
+      return schemaBuilder.makeMixed(super.buildPattern(patterns, loc, null), loc, anno);
     }
   }
 
@@ -618,12 +617,12 @@ class SchemaParser {
       return new ElementState();
     }
 
-    ParsedPattern buildPattern(ParsedPattern[] patterns, int nPatterns, Location loc, Annotations anno) throws SAXException {
-      return schemaBuilder.makeElement(nameClass, super.buildPattern(patterns, nPatterns, loc, null), loc, anno);
+    ParsedPattern buildPattern(List<ParsedPattern> patterns, Location loc, Annotations anno) throws SAXException {
+      return schemaBuilder.makeElement(nameClass, super.buildPattern(patterns, loc, null), loc, anno);
     }
 
     void endForeignChild(ParsedElementAnnotation ea) {
-      if (nameClassWasAttribute || nChildPatterns > 0 || nameClass == null)
+      if (nameClassWasAttribute || childPatterns!=null || nameClass == null)
         super.endForeignChild(ea);
       else
         nameClass = nameClassBuilder.annotateAfter(nameClass, ea);
@@ -893,25 +892,25 @@ class SchemaParser {
     }
 
     void endForeignChild(ParsedElementAnnotation ea) {
-      if (nameClassWasAttribute || nChildPatterns > 0 || nameClass == null)
+      if (nameClassWasAttribute || childPatterns!=null || nameClass == null)
         super.endForeignChild(ea);
       else
         nameClass = nameClassBuilder.annotateAfter(nameClass, ea);
     }
 
     void end() throws SAXException {
-      if (nChildPatterns == 0)
+      if (childPatterns == null)
 	endChild(schemaBuilder.makeText(startLocation, null));
       super.end();
     }
 
-    ParsedPattern buildPattern(ParsedPattern[] patterns, int nPatterns, Location loc, Annotations anno) throws SAXException {
-      return schemaBuilder.makeAttribute(nameClass, super.buildPattern(patterns, nPatterns, loc, null), loc, anno);
+    ParsedPattern buildPattern(List<ParsedPattern> patterns, Location loc, Annotations anno) throws SAXException {
+      return schemaBuilder.makeAttribute(nameClass, super.buildPattern(patterns, loc, null), loc, anno);
     }
 
     State createChildState(String localName) throws SAXException {
       State tem = super.createChildState(localName);
-      if (tem != null && nChildPatterns != 0)
+      if (tem != null && childPatterns!=null)
 	error("attribute_multi_pattern");
       return tem;
     }
@@ -920,7 +919,7 @@ class SchemaParser {
 
   abstract class SinglePatternContainerState extends PatternContainerState {
     State createChildState(String localName) throws SAXException {
-      if (nChildPatterns == 0)
+      if (childPatterns==null)
 	return super.createChildState(localName);
       error("too_many_children");
       return null;
@@ -1158,8 +1157,8 @@ class SchemaParser {
 	super.setOtherAttribute(name, value);
     }
 
-    ParsedPattern buildPattern(ParsedPattern[] patterns, int nPatterns, Location loc, Annotations anno) throws SAXException {
-      return super.buildPattern(patterns, nPatterns, loc, null);
+    ParsedPattern buildPattern(List<ParsedPattern> patterns, Location loc, Annotations anno) throws SAXException {
+      return super.buildPattern(patterns, loc, null);
     }
   }
 
@@ -1206,7 +1205,7 @@ class SchemaParser {
 
     State createChildState(String localName) throws SAXException {
       State tem = super.createChildState(localName);
-      if (tem != null && nChildPatterns != 0)
+      if (tem != null && childPatterns!=null)
 	error("start_multi_pattern");
       return tem;
     }

@@ -8,6 +8,8 @@ import org.kohsuke.rngom.parse.*;
 import org.kohsuke.rngom.parse.IllegalSchemaException;
 import org.kohsuke.rngom.parse.Parseable;
 
+import java.util.List;
+
 // TODO: define combine error check should be done by the parser.
 public interface SchemaBuilder<
     N extends ParsedNameClass,
@@ -28,11 +30,11 @@ public interface SchemaBuilder<
      */
     NameClassBuilder<N,E,L,A,CL> getNameClassBuilder() throws BuildException;
 
-    P makeChoice(P[] patterns, int nPatterns, L loc, A anno) throws BuildException;
+    P makeChoice(List<P> patterns, L loc, A anno) throws BuildException;
 
-    P makeInterleave(P[] patterns, int nPatterns, L loc, A anno) throws BuildException;
+    P makeInterleave(List<P> patterns, L loc, A anno) throws BuildException;
 
-    P makeGroup(P[] patterns, int nPatterns, L loc, A anno) throws BuildException;
+    P makeGroup(List<P> patterns, L loc, A anno) throws BuildException;
 
     P makeOneOrMore(P p, L loc, A anno) throws BuildException;
 

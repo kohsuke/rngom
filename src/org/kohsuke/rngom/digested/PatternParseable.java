@@ -13,6 +13,9 @@ import org.kohsuke.rngom.parse.IllegalSchemaException;
 import org.kohsuke.rngom.parse.Parseable;
 import org.xml.sax.Locator;
 
+import java.util.List;
+import java.util.ArrayList;
+
 /**
  * @author Kohsuke Kawaguchi (kk@kohsuke.org)
  */
@@ -23,20 +26,20 @@ final class PatternParseable implements Parseable {
         this.pattern = p;
     }
 
-    public ParsedPattern parse(SchemaBuilder sb) throws BuildException, IllegalSchemaException {
+    public ParsedPattern parse(SchemaBuilder sb) throws BuildException {
         return (ParsedPattern)pattern.accept(new Parser(sb));
     }
 
-    public ParsedPattern parseInclude(String uri, SchemaBuilder f, IncludedGrammar g, String inheritedNs) throws BuildException, IllegalSchemaException {
+    public ParsedPattern parseInclude(String uri, SchemaBuilder f, IncludedGrammar g, String inheritedNs) throws BuildException {
         throw new UnsupportedOperationException();
     }
 
-    public ParsedPattern parseExternal(String uri, SchemaBuilder f, Scope s, String inheritedNs) throws BuildException, IllegalSchemaException {
+    public ParsedPattern parseExternal(String uri, SchemaBuilder f, Scope s, String inheritedNs) throws BuildException {
         throw new UnsupportedOperationException();
     }
 
 
-    private static class Parser implements DPatternVisitor {
+    private static class Parser implements DPatternVisitor<ParsedPattern> {
         private final SchemaBuilder sb;
 
         public Parser(SchemaBuilder sb) {
@@ -60,7 +63,7 @@ final class PatternParseable implements Parseable {
 
 
 
-        public Object onAttribute(DAttributePattern p) {
+        public ParsedPattern onAttribute(DAttributePattern p) {
             return sb.makeAttribute(
                 parseNameClass(p.getName()),
                 (ParsedPattern)p.getChild().accept(this),
@@ -68,20 +71,19 @@ final class PatternParseable implements Parseable {
                 parseAnnotation(p) );
         }
 
-        public Object onChoice(DChoicePattern p) {
-            ParsedPattern[] kids = new ParsedPattern[p.countChildren()];
-            int i=0;
-            for( DPattern c=p.firstChild(); c!=null; c=c.next(),i++ )
-                kids[i] = (ParsedPattern)c.accept(this);
-            return sb.makeChoice(kids,i,parseLocation(p),null);
+        public ParsedPattern onChoice(DChoicePattern p) {
+            List<ParsedPattern> kids = new ArrayList<ParsedPattern>();
+            for( DPattern c=p.firstChild(); c!=null; c=c.next() )
+                kids.add( (ParsedPattern)c.accept(this) );
+            return sb.makeChoice(kids,parseLocation(p),null);
         }
 
-        public Object onData(DDataPattern p) {
+        public ParsedPattern onData(DDataPattern p) {
             // TODO
             return null;
         }
 
-        public Object onElement(DElementPattern p) {
+        public ParsedPattern onElement(DElementPattern p) {
             return sb.makeElement(
                 parseNameClass(p.getName()),
                 (ParsedPattern)p.getChild().accept(this),
@@ -89,79 +91,77 @@ final class PatternParseable implements Parseable {
                 parseAnnotation(p) );
         }
 
-        public Object onEmpty(DEmptyPattern p) {
+        public ParsedPattern onEmpty(DEmptyPattern p) {
             return sb.makeEmpty(
                 parseLocation(p),
                 parseAnnotation(p) );
         }
 
-        public Object onGrammar(DGrammarPattern p) {
+        public ParsedPattern onGrammar(DGrammarPattern p) {
             // TODO
             return null;
         }
 
-        public Object onGroup(DGroupPattern p) {
-            ParsedPattern[] kids = new ParsedPattern[p.countChildren()];
-            int i=0;
-            for( DPattern c=p.firstChild(); c!=null; c=c.next(),i++ )
-                kids[i] = (ParsedPattern)c.accept(this);
-            return sb.makeGroup(kids,i,parseLocation(p),null);
+        public ParsedPattern onGroup(DGroupPattern p) {
+            List<ParsedPattern> kids = new ArrayList<ParsedPattern>();
+            for( DPattern c=p.firstChild(); c!=null; c=c.next() )
+                kids.add( (ParsedPattern)c.accept(this) );
+            return sb.makeGroup(kids,parseLocation(p),null);
         }
 
-        public Object onInterleave(DInterleavePattern p) {
-            ParsedPattern[] kids = new ParsedPattern[p.countChildren()];
-            int i=0;
-            for( DPattern c=p.firstChild(); c!=null; c=c.next(),i++ )
-                kids[i] = (ParsedPattern)c.accept(this);
-            return sb.makeInterleave(kids,i,parseLocation(p),null);
+        public ParsedPattern onInterleave(DInterleavePattern p) {
+            List<ParsedPattern> kids = new ArrayList<ParsedPattern>();
+            for( DPattern c=p.firstChild(); c!=null; c=c.next() )
+                kids.add( (ParsedPattern)c.accept(this) );
+            return sb.makeInterleave(kids,parseLocation(p),null);
         }
 
-        public Object onList(DListPattern p) {
+        public ParsedPattern onList(DListPattern p) {
             return sb.makeList(
                 (ParsedPattern)p.getChild().accept(this),
                 parseLocation(p),
                 parseAnnotation(p) );
         }
 
-        public Object onMixed(DMixedPattern p) {
+        public ParsedPattern onMixed(DMixedPattern p) {
             return sb.makeMixed(
                 (ParsedPattern)p.getChild().accept(this),
                 parseLocation(p),
                 parseAnnotation(p) );
         }
 
-        public Object onNotAllowed(DNotAllowedPattern p) {
+        public ParsedPattern onNotAllowed(DNotAllowedPattern p) {
             return sb.makeNotAllowed(
                 parseLocation(p),
                 parseAnnotation(p) );
         }
 
-        public Object onOneOrMore(DOneOrMorePattern p) {
+        public ParsedPattern onOneOrMore(DOneOrMorePattern p) {
             return sb.makeOneOrMore(
                 (ParsedPattern)p.getChild().accept(this),
                 parseLocation(p),
                 parseAnnotation(p) );
         }
 
-        public Object onOptional(DOptionalPattern p) {
+        public ParsedPattern onOptional(DOptionalPattern p) {
             return sb.makeOptional(
                 (ParsedPattern)p.getChild().accept(this),
                 parseLocation(p),
                 parseAnnotation(p) );
         }
 
-        public Object onRef(DRefPattern p) {
+        public ParsedPattern onRef(DRefPattern p) {
             // TODO
             return null;
         }
 
-        public Object onText(DTextPattern p) {
+        public ParsedPattern onText(DTextPattern p) {
             return sb.makeText(
                 parseLocation(p),
                 parseAnnotation(p) );
         }
 
-        public Object onValue(DValuePattern p) {
+        public ParsedPattern onValue(DValuePattern p) {
             return sb.makeValue(
                 p.getDatatypeLibrary(),
                 p.getType(),
@@ -172,7 +172,7 @@ final class PatternParseable implements Parseable {
                 parseAnnotation(p) );
         }
 
-        public Object onZeroOrMore(DZeroOrMorePattern p) {
+        public ParsedPattern onZeroOrMore(DZeroOrMorePattern p) {
             return sb.makeZeroOrMore(
                 (ParsedPattern)p.getChild().accept(this),
                 parseLocation(p),

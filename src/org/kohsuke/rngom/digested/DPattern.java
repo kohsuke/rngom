@@ -53,7 +53,7 @@ public abstract class DPattern implements ParsedPattern {
      */
     public abstract boolean isNullable();
 
-    public abstract Object accept( DPatternVisitor visitor );
+    public abstract <V> V accept( DPatternVisitor<V> visitor );
 
     /**
      * Creates a {@link Parseable} object that reparses this pattern.

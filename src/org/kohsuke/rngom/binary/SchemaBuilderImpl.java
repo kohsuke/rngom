@@ -2,6 +2,7 @@ package org.kohsuke.rngom.binary;
 
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.List;
 
 import org.kohsuke.rngom.ast.builder.Annotations;
 import org.kohsuke.rngom.ast.builder.BuildException;
@@ -129,33 +130,33 @@ public class SchemaBuilderImpl implements SchemaBuilder, ElementAnnotationBuilde
       return ncb;
   }
 
-  public ParsedPattern makeChoice(ParsedPattern[] patterns, int nPatterns, Location loc, Annotations anno)
+  public ParsedPattern makeChoice(List patterns, Location loc, Annotations anno)
           throws BuildException {
-    if (nPatterns <= 0)
+    if (patterns.isEmpty())
       throw new IllegalArgumentException();
-    Pattern result = (Pattern)patterns[0];
-    for (int i = 1; i < nPatterns; i++)
-      result = pb.makeChoice(result, (Pattern)patterns[i]);
+    Pattern result = (Pattern)patterns.get(0);
+    for (int i = 1; i < patterns.size(); i++)
+      result = pb.makeChoice(result, (Pattern)patterns.get(i));
     return result;
   }
 
-  public ParsedPattern makeInterleave(ParsedPattern[] patterns, int nPatterns, Location loc, Annotations anno)
+  public ParsedPattern makeInterleave(List patterns, Location loc, Annotations anno)
           throws BuildException {
-    if (nPatterns <= 0)
+    if (patterns.isEmpty())
       throw new IllegalArgumentException();
-    Pattern result = (Pattern)patterns[0];
-    for (int i = 1; i < nPatterns; i++)
-      result = pb.makeInterleave(result, (Pattern)patterns[i]);
+    Pattern result = (Pattern)patterns.get(0);
+    for (int i = 1; i < patterns.size(); i++)
+      result = pb.makeInterleave(result, (Pattern)patterns.get(i));
     return result;
   }
 
-  public ParsedPattern makeGroup(ParsedPattern[] patterns, int nPatterns, Location loc, Annotations anno)
+  public ParsedPattern makeGroup(List patterns, Location loc, Annotations anno)
           throws BuildException {
-    if (nPatterns <= 0)
+    if (patterns.isEmpty())
       throw new IllegalArgumentException();
-    Pattern result = (Pattern)patterns[0];
-    for (int i = 1; i < nPatterns; i++)
-      result = pb.makeGroup(result, (Pattern)patterns[i]);
+    Pattern result = (Pattern)patterns.get(0);
+    for (int i = 1; i < patterns.size(); i++)
+      result = pb.makeGroup(result, (Pattern)patterns.get(i));
     return result;
   }
 

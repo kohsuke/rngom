@@ -21,7 +21,11 @@ import org.kohsuke.rngom.parse.IllegalSchemaException;
 import org.kohsuke.rngom.parse.Parseable;
 import org.xml.sax.Locator;
 
+import java.util.List;
+
 /**
+ * Parses as {@link Parseable} into a {@link DPattern}.
+ * 
  * @author Kohsuke Kawaguchi (kk@kohsuke.org)
  */
 public class DSchemaBuilderImpl implements SchemaBuilder {
@@ -39,9 +43,9 @@ public class DSchemaBuilderImpl implements SchemaBuilder {
         return p;
     }
 
-    static DContainerPattern addAll( DContainerPattern parent, ParsedPattern[] children, int n ) {
-        for( int i=0; i<n; i++ )
-            parent.add( (DPattern)children[i] );
+    static DContainerPattern addAll( DContainerPattern parent, List children) {
+        for( int i=0; i<children.size(); i++ )
+            parent.add( (DPattern)children.get(i) );
         return parent;
     }
 
@@ -50,16 +54,16 @@ public class DSchemaBuilderImpl implements SchemaBuilder {
         return parent;
     }
 
-    public ParsedPattern makeChoice(ParsedPattern[] patterns, int nPatterns, Location loc, Annotations anno) throws BuildException {
-        return wrap(addAll(new DChoicePattern(),patterns,nPatterns),loc,anno);
+    public ParsedPattern makeChoice(List patterns, Location loc, Annotations anno) throws BuildException {
+        return wrap(addAll(new DChoicePattern(),patterns),loc,anno);
     }
 
-    public ParsedPattern makeInterleave(ParsedPattern[] patterns, int nPatterns, Location loc, Annotations anno) throws BuildException {
-        return wrap(addAll(new DInterleavePattern(),patterns,nPatterns),loc,anno);
+    public ParsedPattern makeInterleave(List patterns, Location loc, Annotations anno) throws BuildException {
+        return wrap(addAll(new DInterleavePattern(),patterns),loc,anno);
     }
 
-    public ParsedPattern makeGroup(ParsedPattern[] patterns, int nPatterns, Location loc, Annotations anno) throws BuildException {
-        return wrap(addAll(new DGroupPattern(),patterns,nPatterns),loc,anno);
+    public ParsedPattern makeGroup(List patterns, Location loc, Annotations anno) throws BuildException {
+        return wrap(addAll(new DGroupPattern(),patterns),loc,anno);
     }
 
     public ParsedPattern makeOneOrMore(ParsedPattern p, Location loc, Annotations anno) throws BuildException {

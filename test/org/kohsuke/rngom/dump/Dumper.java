@@ -17,6 +17,9 @@ import org.kohsuke.rngom.parse.Context;
 import org.kohsuke.rngom.parse.IllegalSchemaException;
 import org.kohsuke.rngom.parse.Parseable;
 
+import java.util.List;
+import java.io.OutputStream;
+
 /**
  * Dumps the callback invocations to an {@link OutputStream}.
  * 
@@ -44,26 +47,24 @@ public class Dumper implements SchemaBuilder {
         return ncb;
     }
 
-    public ParsedPattern makeChoice(ParsedPattern[] patterns, int nPatterns, Location loc, Annotations anno) throws BuildException {
+    public ParsedPattern makeChoice(List patterns, Location loc, Annotations anno) throws BuildException {
         printer.name("makeChoice");
-        for( int i=0; i<nPatterns; i++ )
-            printer.param(patterns[i]);
-        printer.param(loc).param(anno);
-        return printer.result(factory.createPattern());
+        return makeNode(patterns, loc, anno);
     }
 
-    public ParsedPattern makeInterleave(ParsedPattern[] patterns, int nPatterns, Location loc, Annotations anno) throws BuildException {
+    public ParsedPattern makeInterleave(List patterns, Location loc, Annotations anno) throws BuildException {
         printer.name("makeInterleave");
-        for( int i=0; i<nPatterns; i++ )
-            printer.param(patterns[i]);
-        printer.param(loc).param(anno);
-        return printer.result(factory.createPattern());
+        return makeNode(patterns, loc, anno);
     }
 
-    public ParsedPattern makeGroup(ParsedPattern[] patterns, int nPatterns, Location loc, Annotations anno) throws BuildException {
+    public ParsedPattern makeGroup(List patterns, Location loc, Annotations anno) throws BuildException {
         printer.name("makeGroup");
-        for( int i=0; i<nPatterns; i++ )
-            printer.param(patterns[i]);
+        return makeNode(patterns, loc, anno);
+    }
+
+    private ParsedPattern makeNode(List patterns, Location loc, Annotations anno) {
+        for( int i=0; i<patterns.size(); i++ )
+            printer.param((ParsedPattern)patterns.get(i));
         printer.param(loc).param(anno);
         return printer.result(factory.createPattern());
     }

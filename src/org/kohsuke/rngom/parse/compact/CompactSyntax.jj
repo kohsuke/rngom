@@ -11,8 +11,10 @@ package org.kohsuke.rngom.parse.compact;
 import java.io.Reader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.List;
 
 import org.kohsuke.rngom.ast.builder.Annotations;
 import org.kohsuke.rngom.ast.builder.BuildException;
@@ -634,33 +636,32 @@ ParsedPattern NotAllowedExpr(Annotations a) :
 
 ParsedPattern Expr(boolean topLevel, Scope scope, Token t, Annotations a) :
 {
+  List patterns = new ArrayList();
   ParsedPattern p;
-  ParsedPattern[] patterns = new ParsedPattern[2];
-  int nPatterns = 1;
   boolean[] hadOccur = new boolean[1];
   Token[] except = new Token[1];
 }
 {
   p = UnaryExpr(topLevel, scope, hadOccur, except)
-  { patterns[0] = p; }
+  { patterns.add(p); }
   (
    { checkExcept(except); }
    (t = "|" p = UnaryExpr(topLevel, scope, null, except)
-     { patterns = addPattern(patterns, nPatterns++, p); checkExcept(except); } )+
-    { p = sb.makeChoice(patterns, nPatterns, makeLocation(t), a); }
+     { patterns.add(p); checkExcept(except); } )+
+    { p = sb.makeChoice(patterns, makeLocation(t), a); }
     | (t = "&" p = UnaryExpr(topLevel, scope, null, except)
-     { patterns = addPattern(patterns, nPatterns++, p); checkExcept(except); } )+
-    { p = sb.makeInterleave(patterns, nPatterns, makeLocation(t), a); }
+     { patterns.add(p); checkExcept(except); } )+
+    { p = sb.makeInterleave(patterns, makeLocation(t), a); }
     | (t = "," p = UnaryExpr(topLevel, scope, null, except)
-     { patterns = addPattern(patterns, nPatterns++, p); checkExcept(except); } )+
-    { p = sb.makeGroup(patterns, nPatterns, makeLocation(t), a); }
+     { patterns.add(p); checkExcept(except); } )+
+    { p = sb.makeGroup(patterns, makeLocation(t), a); }
   )?
   {
-    if (nPatterns == 1 && a != null) {
+    if (patterns.size() == 1 && a != null) {
       if (hadOccur[0])
         p = sb.annotate(p, a);
       else
-        p = sb.makeGroup(patterns, nPatterns, makeLocation(t), a);
+        p = sb.makeGroup(patterns, makeLocation(t), a);
     }
     return p;
   }

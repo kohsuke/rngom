@@ -17,6 +17,9 @@ import org.kohsuke.rngom.parse.Context;
 import org.kohsuke.rngom.parse.IllegalSchemaException;
 import org.kohsuke.rngom.parse.Parseable;
 
+import java.util.List;
+import java.util.ArrayList;
+
 /**
  * 
  * @author
@@ -96,21 +99,21 @@ public class SchemaBuilderHost extends Base implements SchemaBuilder {
             rhs.makeAttribute(nc.rhs, p.rhs, loc.rhs, anno.rhs));
     }
     
-    public ParsedPattern makeChoice(ParsedPattern[] patterns, int nPatterns,
+    public ParsedPattern makeChoice(List patterns,
         Location _loc, Annotations _anno) throws BuildException {
-        
-        ParsedPattern[] lp = new ParsedPattern[nPatterns];
-        ParsedPattern[] rp = new ParsedPattern[nPatterns];
-        for( int i=0; i<nPatterns; i++ ) {
-            lp[i] = ((ParsedPatternHost)patterns[i]).lhs;
-            rp[i] = ((ParsedPatternHost)patterns[i]).rhs;
+
+        List<ParsedPattern> lp = new ArrayList<ParsedPattern>();
+        List<ParsedPattern> rp = new ArrayList<ParsedPattern>();
+        for( int i=0; i<patterns.size(); i++ ) {
+            lp.add( ((ParsedPatternHost)patterns.get(i)).lhs);
+            rp.add( ((ParsedPatternHost)patterns.get(i)).rhs);
         }
         LocationHost loc = cast(_loc);
         AnnotationsHost anno = cast(_anno);
         
         return new ParsedPatternHost(
-            lhs.makeChoice(lp, nPatterns, loc.lhs, anno.lhs),
-            rhs.makeChoice(rp, nPatterns, loc.rhs, anno.rhs));
+            lhs.makeChoice(lp, loc.lhs, anno.lhs),
+            rhs.makeChoice(rp, loc.rhs, anno.rhs));
     }
     
     public CommentList makeCommentList() {
@@ -188,38 +191,38 @@ public class SchemaBuilderHost extends Base implements SchemaBuilder {
             rhs.makeGrammar((parent!=null)?parent.rhs:null) );
     }
 
-    public ParsedPattern makeGroup(ParsedPattern[] patterns, int nPatterns,
+    public ParsedPattern makeGroup(List patterns,
         Location _loc, Annotations _anno) throws BuildException {
-        
-        ParsedPattern[] lp = new ParsedPattern[nPatterns];
-        ParsedPattern[] rp = new ParsedPattern[nPatterns];
-        for( int i=0; i<nPatterns; i++ ) {
-            lp[i] = ((ParsedPatternHost)patterns[i]).lhs;
-            rp[i] = ((ParsedPatternHost)patterns[i]).rhs;
+
+        List<ParsedPattern> lp = new ArrayList<ParsedPattern>();
+        List<ParsedPattern> rp = new ArrayList<ParsedPattern>();
+        for( int i=0; i<patterns.size(); i++ ) {
+            lp.add( ((ParsedPatternHost)patterns.get(i)).lhs);
+            rp.add( ((ParsedPatternHost)patterns.get(i)).rhs);
         }
         LocationHost loc = cast(_loc);
         AnnotationsHost anno = cast(_anno);
-        
+
         return new ParsedPatternHost(
-            lhs.makeGroup(lp, nPatterns, loc.lhs, anno.lhs),
-            rhs.makeGroup(rp, nPatterns, loc.rhs, anno.rhs));
+            lhs.makeGroup(lp, loc.lhs, anno.lhs),
+            rhs.makeGroup(rp, loc.rhs, anno.rhs));
     }
 
-    public ParsedPattern makeInterleave(ParsedPattern[] patterns,
-        int nPatterns, Location _loc, Annotations _anno) throws BuildException {
-        
-        ParsedPattern[] lp = new ParsedPattern[nPatterns];
-        ParsedPattern[] rp = new ParsedPattern[nPatterns];
-        for( int i=0; i<nPatterns; i++ ) {
-            lp[i] = ((ParsedPatternHost)patterns[i]).lhs;
-            rp[i] = ((ParsedPatternHost)patterns[i]).rhs;
+    public ParsedPattern makeInterleave(List patterns,
+        Location _loc, Annotations _anno) throws BuildException {
+
+        List<ParsedPattern> lp = new ArrayList<ParsedPattern>();
+        List<ParsedPattern> rp = new ArrayList<ParsedPattern>();
+        for( int i=0; i<patterns.size(); i++ ) {
+            lp.add( ((ParsedPatternHost)patterns.get(i)).lhs);
+            rp.add( ((ParsedPatternHost)patterns.get(i)).rhs);
         }
         LocationHost loc = cast(_loc);
         AnnotationsHost anno = cast(_anno);
-        
+
         return new ParsedPatternHost(
-            lhs.makeInterleave(lp, nPatterns, loc.lhs, anno.lhs),
-            rhs.makeInterleave(rp, nPatterns, loc.rhs, anno.rhs));
+            lhs.makeInterleave(lp, loc.lhs, anno.lhs),
+            rhs.makeInterleave(rp, loc.rhs, anno.rhs));
     }
     
     public ParsedPattern makeList(ParsedPattern _p, Location _loc,

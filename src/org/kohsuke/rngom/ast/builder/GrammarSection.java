@@ -29,14 +29,16 @@ public interface GrammarSection<
     static final Combine COMBINE_CHOICE = new Combine("choice");
     static final Combine COMBINE_INTERLEAVE = new Combine("interleave");
 
-    static final String START = new String("#start");
+    // using \u0000 guarantees that the name will be never used as
+    // a user-defined pattern name.
+    static final String START = "\u0000#start\u0000";
 
     /**
      * Called when a pattern is defined.
      *
      * @param name
      *      Name of the pattern. For the definition by a &lt;start/> element,
-     *      this parameter is the same as {@link #START}. (IOW, use <tt>name==START</tt>}
+     *      this parameter is the same as {@link #START}.
      *      to test if it's a named pattern definition or the start pattern definition.
      * @param combine
      *      null or {@link #COMBINE_CHOICE} or {@link #COMBINE_INTERLEAVE} depending
