@@ -22,8 +22,8 @@ final class AnyNameClass extends NameClass {
         return AnyNameClass.class.hashCode();
     }
 
-    public void accept(NameClassVisitor visitor) {
-        visitor.visitAnyName();
+    public <V> V accept(NameClassVisitor<V> visitor) {
+        return visitor.visitAnyName();
     }
 
     public boolean isOpen() {

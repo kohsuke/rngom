@@ -33,8 +33,8 @@ public class NsNameExceptNameClass extends NameClass {
     return namespaceURI.hashCode() ^ nameClass.hashCode();
   }
 
-  public void accept(NameClassVisitor visitor) {
-    visitor.visitNsNameExcept(namespaceURI, nameClass);
+  public <V> V accept(NameClassVisitor<V> visitor) {
+    return visitor.visitNsNameExcept(namespaceURI, nameClass);
   }
 
   public boolean isOpen() {

@@ -28,8 +28,8 @@ public final class NsNameClass extends NameClass {
     return namespaceUri.equals(((NsNameClass)obj).namespaceUri);
   }
 
-  public void accept(NameClassVisitor visitor) {
-    visitor.visitNsName(namespaceUri);
+  public <V> V accept(NameClassVisitor<V> visitor) {
+    return visitor.visitNsName(namespaceUri);
   }
 
   public boolean isOpen() {

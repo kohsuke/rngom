@@ -2,7 +2,7 @@ package org.kohsuke.rngom.nc;
 
 import javax.xml.namespace.QName;
 
-class OverlapDetector implements NameClassVisitor {
+class OverlapDetector implements NameClassVisitor<Void> {
     private NameClass nc1;
     private NameClass nc2;
     private boolean overlaps = false;
@@ -21,37 +21,45 @@ class OverlapDetector implements NameClassVisitor {
             overlaps = true;
     }
 
-    public void visitChoice(NameClass nc1, NameClass nc2) {
+    public Void visitChoice(NameClass nc1, NameClass nc2) {
         nc1.accept(this);
         nc2.accept(this);
+        return null;
     }
 
-    public void visitNsName(String ns) {
+    public Void visitNsName(String ns) {
         probe(new QName(ns, IMPOSSIBLE));
+        return null;
     }
 
-    public void visitNsNameExcept(String ns, NameClass ex) {
+    public Void visitNsNameExcept(String ns, NameClass ex) {
         probe(new QName(ns, IMPOSSIBLE));
         ex.accept(this);
+        return null;
     }
 
-    public void visitAnyName() {
+    public Void visitAnyName() {
         probe(new QName(IMPOSSIBLE, IMPOSSIBLE));
+        return null;
     }
 
-    public void visitAnyNameExcept(NameClass ex) {
+    public Void visitAnyNameExcept(NameClass ex) {
         probe(new QName(IMPOSSIBLE, IMPOSSIBLE));
         ex.accept(this);
+        return null;
     }
 
-    public void visitName(QName name) {
+    public Void visitName(QName name) {
         probe(name);
+        return null;
     }
 
-    public void visitNull() {
+    public Void visitNull() {
+        return null;
     }
 
-    public void visitError() {
+    public Void visitError() {
+        return null;
     }
 
     static boolean overlap(NameClass nc1, NameClass nc2) {

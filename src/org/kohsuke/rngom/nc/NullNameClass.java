@@ -22,8 +22,8 @@ final class NullNameClass extends NameClass {
         return this==obj;
     }
 
-    public void accept(NameClassVisitor visitor) {
-        visitor.visitNull();
+    public <V> V accept(NameClassVisitor<V> visitor) {
+        return visitor.visitNull();
     }
 
     public boolean isOpen() {

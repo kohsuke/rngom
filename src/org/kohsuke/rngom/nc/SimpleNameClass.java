@@ -33,8 +33,8 @@ public class SimpleNameClass extends NameClass {
         return name.equals(other.name);
     }
 
-    public void accept(NameClassVisitor visitor) {
-        visitor.visitName(name);
+    public <V> V accept(NameClassVisitor<V> visitor) {
+        return visitor.visitName(name);
     }
 
     public boolean isOpen() {

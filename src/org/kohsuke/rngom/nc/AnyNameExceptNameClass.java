@@ -28,8 +28,8 @@ public class AnyNameExceptNameClass extends NameClass {
         return ~nameClass.hashCode();
     }
 
-    public void accept(NameClassVisitor visitor) {
-        visitor.visitAnyNameExcept(nameClass);
+    public <V> V accept(NameClassVisitor<V> visitor) {
+        return visitor.visitAnyNameExcept(nameClass);
     }
 
     public boolean isOpen() {

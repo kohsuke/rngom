@@ -35,8 +35,8 @@ public class ChoiceNameClass extends NameClass {
                 && nameClass2.equals(other.nameClass2));
     }
 
-    public void accept(NameClassVisitor visitor) {
-        visitor.visitChoice(nameClass1, nameClass2);
+    public <V> V accept(NameClassVisitor<V> visitor) {
+        return visitor.visitChoice(nameClass1, nameClass2);
     }
 
     public boolean isOpen() {
