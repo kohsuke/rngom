@@ -15,6 +15,6 @@ public interface DataPatternBuilder<
 
   void addParam(String name, String value, Context context, String ns, L loc, A anno) throws BuildException;
   void annotation(E ea);
-  ParsedPattern makePattern(L loc, A anno) throws BuildException;
-  ParsedPattern makePattern(P except, L loc, A anno) throws BuildException;
+  P makePattern(L loc, A anno) throws BuildException;
+  P makePattern(P except, L loc, A anno) throws BuildException;
 }
