@@ -49,7 +49,7 @@
 				<attribute name="Date" value="${TODAY}"/>
 				<attribute name="Class-path" value="relangDatatype.jar jax-qname.jar"/>
 			</manifest>
-			<metainf dir="doc" includes="jing-copying.html, LICENSE.txt"/>
+			<metainf dir="../www/doc" includes="jing-copying.html, LICENSE.txt"/>
 			
 			<fileset dir="build/classes" includes="**/*.class"/>
 			<fileset dir="src" includes="**/*.properties"/>
