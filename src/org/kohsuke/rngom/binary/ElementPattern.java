@@ -6,7 +6,7 @@ import org.kohsuke.rngom.nc.NameClass;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 
-public class ElementPattern extends Pattern {
+public final class ElementPattern extends Pattern {
   private Pattern p;
   private NameClass origNameClass;
   private NameClass nameClass;
@@ -84,15 +84,15 @@ public class ElementPattern extends Pattern {
     this.p = p;
   }
 
-  Pattern getContent() {
+  public Pattern getContent() {
     return p;
   }
 
-  NameClass getNameClass() {
+  public NameClass getNameClass() {
     return nameClass;
   }
 
-  Locator getLocator() {
+  public Locator getLocator() {
     return loc;
   }
 }

@@ -7,7 +7,7 @@ import org.kohsuke.rngom.nc.SimpleNameClass;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 
-public class AttributePattern extends Pattern {
+public final class AttributePattern extends Pattern {
   private NameClass nameClass;
   private Pattern p;
   private Locator loc;
@@ -85,15 +85,15 @@ public class AttributePattern extends Pattern {
     return f.caseAttribute(this);
   }
 
-  Pattern getContent() {
+  public Pattern getContent() {
     return p;
   }
 
-  NameClass getNameClass() {
+  public NameClass getNameClass() {
     return nameClass;
   }
 
-  Locator getLocator() {
+  public Locator getLocator() {
     return loc;
   }
 }
