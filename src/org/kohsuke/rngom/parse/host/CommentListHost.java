@@ -21,7 +21,9 @@ class CommentListHost extends Base implements CommentList {
     
     public void addComment(String value, Location _loc) throws BuildException {
         LocationHost loc = cast(_loc);
-        lhs.addComment(value,loc.lhs);
-        rhs.addComment(value,loc.rhs);
+        if(lhs!=null)
+            lhs.addComment(value,loc.lhs);
+        if(rhs!=null)
+            rhs.addComment(value,loc.rhs);
     }
 }

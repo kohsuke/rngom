@@ -4,14 +4,15 @@
 		<mkdir dir="build/classes"/>
 		<mkdir dir="build/qname-classes"/>
 		<mkdir dir="build/test-classes"/>
-		
+    <mkdir dir="build/parsed-classes"/>
+
 		<javacc    target="src/org/kohsuke/rngom/parse/compact/CompactSyntax.jj"
 			outputdirectory="src/org/kohsuke/rngom/parse/compact"
 			javacchome="lib/javacc" />
 		
 		<javac srcdir="qname" destdir="build/qname-classes" />
 		
-		<javac srcdir="src" destdir="build/classes">
+		<javac srcdir="src" destdir="build/classes" debug="on">
 			<classpath>
 				<fileset dir="lib" includes="*.jar"/>
 				<pathelement path="build/qname-classes"/>

@@ -22,6 +22,8 @@ public class GrammarSectionHost extends Base implements GrammarSection {
     GrammarSectionHost( GrammarSection lhs, GrammarSection rhs ) {
         this.lhs = lhs;
         this.rhs = rhs;
+        if(lhs==null || rhs==null)
+            throw new IllegalArgumentException();
     }
     
     public void define(String name, Combine combine, ParsedPattern _pattern,
@@ -46,8 +48,8 @@ public class GrammarSectionHost extends Base implements GrammarSection {
     
     public void topLevelAnnotation(ParsedElementAnnotation _ea) throws BuildException {
         ParsedElementAnnotationHost ea = (ParsedElementAnnotationHost) _ea;
-        lhs.topLevelAnnotation(ea.lhs);
-        rhs.topLevelAnnotation(ea.rhs);
+        lhs.topLevelAnnotation(ea==null?null:ea.lhs);
+        rhs.topLevelAnnotation(ea==null?null:ea.rhs);
     }
     
     public void topLevelComment(CommentList _comments) throws BuildException {
