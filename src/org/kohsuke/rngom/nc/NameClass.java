@@ -1,10 +1,11 @@
 package org.kohsuke.rngom.nc;
 
-import java.io.Serializable;
+import org.kohsuke.rngom.ast.om.ParsedNameClass;
 
 import javax.xml.namespace.QName;
-
-import org.kohsuke.rngom.ast.om.ParsedNameClass;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Name class is a set of {@link QName}s.
@@ -26,7 +27,7 @@ public abstract class NameClass implements ParsedNameClass, Serializable {
     /**
      * Visitor pattern support.
      */
-    public abstract void accept(NameClassVisitor visitor);
+    public abstract <V> V accept(NameClassVisitor<V> visitor);
     
     /**
      * Returns true if the name class accepts infinite number of
@@ -37,8 +38,23 @@ public abstract class NameClass implements ParsedNameClass, Serializable {
      * some sort of wildcard.
      */
     public abstract boolean isOpen();
-    
-    
+
+    /**
+     * If the name class is closed (IOW !{@link #isOpen()}),
+     * return the set of names in this name class. Otherwise the behavior
+     * is undefined.
+     */
+    public Set<QName> listNames() {
+        final Set<QName> names = new HashSet<QName>();
+        accept(new NameClassWalker() {
+            public Void visitName(QName name) {
+                names.add(name);
+                return null;
+            }
+        });
+        return names;
+    }
+
     /**
      * Returns true if the intersection between this name class
      * and the specified name class is non-empty.

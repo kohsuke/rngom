@@ -2,13 +2,13 @@ package org.kohsuke.rngom.nc;
 
 import javax.xml.namespace.QName;
 
-public interface NameClassVisitor {
-    void visitChoice(NameClass nc1, NameClass nc2);
-    void visitNsName(String ns);
-    void visitNsNameExcept(String ns, NameClass nc);
-    void visitAnyName();
-    void visitAnyNameExcept(NameClass nc);
-    void visitName(QName name);
-    void visitNull();
-    void visitError();
+public interface NameClassVisitor<V> {
+    V visitChoice(NameClass nc1, NameClass nc2);
+    V visitNsName(String ns);
+    V visitNsNameExcept(String ns, NameClass nc);
+    V visitAnyName();
+    V visitAnyNameExcept(NameClass nc);
+    V visitName(QName name);
+    V visitNull();
+    V visitError();
 }
