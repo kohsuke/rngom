@@ -21,7 +21,7 @@ public interface Parseable {
      * @return
      *      a parsed object. Always returns a non-null valid object.
      */
-    ParsedPattern parse(SchemaBuilder sb) throws BuildException, IllegalSchemaException;
+    <P extends ParsedPattern> P parse(SchemaBuilder<?,P,?,?,?,?> sb) throws BuildException, IllegalSchemaException;
 
     /**
      * Called from {@link Include} in response to
@@ -31,7 +31,7 @@ public interface Parseable {
      * @param g
      *      receives the events from the included grammar.
      */
-    ParsedPattern parseInclude(String uri, SchemaBuilder f, IncludedGrammar g, String inheritedNs)
+    <P extends ParsedPattern> P parseInclude(String uri, SchemaBuilder<?,P,?,?,?,?> f, IncludedGrammar<P,?,?,?,?> g, String inheritedNs)
         throws BuildException, IllegalSchemaException;
 
     /**
@@ -42,6 +42,6 @@ public interface Parseable {
      * @param f
      *      receives the events from the referenced grammar.
      */
-    ParsedPattern parseExternal(String uri, SchemaBuilder f, Scope s, String inheritedNs)
+    <P extends ParsedPattern> P parseExternal(String uri, SchemaBuilder<?,P,?,?,?,?> f, Scope s, String inheritedNs)
         throws BuildException, IllegalSchemaException;
 }

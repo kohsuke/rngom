@@ -5,22 +5,22 @@ package org.kohsuke.rngom.digested;
 /**
  * @author Kohsuke Kawaguchi (kk@kohsuke.org)
  */
-public interface DPatternVisitor {
-    Object onAttribute( DAttributePattern p );
-    Object onChoice( DChoicePattern p );
-    Object onData( DDataPattern p );
-    Object onElement( DElementPattern p );
-    Object onEmpty( DEmptyPattern p );
-    Object onGrammar( DGrammarPattern p );
-    Object onGroup( DGroupPattern p );
-    Object onInterleave( DInterleavePattern p );
-    Object onList( DListPattern p );
-    Object onMixed( DMixedPattern p );
-    Object onNotAllowed( DNotAllowedPattern p );
-    Object onOneOrMore( DOneOrMorePattern p );
-    Object onOptional( DOptionalPattern p );
-    Object onRef( DRefPattern p );
-    Object onText( DTextPattern p );
-    Object onValue( DValuePattern p );
-    Object onZeroOrMore( DZeroOrMorePattern p );
+public interface DPatternVisitor<V> {
+    V onAttribute( DAttributePattern p );
+    V onChoice( DChoicePattern p );
+    V onData( DDataPattern p );
+    V onElement( DElementPattern p );
+    V onEmpty( DEmptyPattern p );
+    V onGrammar( DGrammarPattern p );
+    V onGroup( DGroupPattern p );
+    V onInterleave( DInterleavePattern p );
+    V onList( DListPattern p );
+    V onMixed( DMixedPattern p );
+    V onNotAllowed( DNotAllowedPattern p );
+    V onOneOrMore( DOneOrMorePattern p );
+    V onOptional( DOptionalPattern p );
+    V onRef( DRefPattern p );
+    V onText( DTextPattern p );
+    V onValue( DValuePattern p );
+    V onZeroOrMore( DZeroOrMorePattern p );
 }

@@ -95,6 +95,12 @@ public interface SchemaBuilder<
 
     L makeLocation(String systemId, int lineNumber, int columnNumber);
 
+    /**
+     * Creates {@link Annotations} object to parse annotations on patterns.
+     *
+     * @return
+     *      must be non-null.
+     */
     A makeAnnotations(CL comments, Context context);
 
     ElementAnnotationBuilder<P,E,L,A,CL> makeElementAnnotationBuilder(String ns,
