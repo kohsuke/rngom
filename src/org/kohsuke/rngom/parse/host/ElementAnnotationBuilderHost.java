@@ -25,8 +25,8 @@ final class ElementAnnotationBuilderHost extends AnnotationsHost implements Elem
         LocationHost loc = cast(_loc);
         CommentListHost comments = (CommentListHost) _comments;
         
-        lhs.addText( value, loc.lhs, comments.lhs );
-        rhs.addText( value, loc.rhs, comments.rhs );
+        lhs.addText( value, loc.lhs, comments==null?null:comments.lhs );
+        rhs.addText( value, loc.rhs, comments==null?null:comments.rhs );
     }
 
     public ParsedElementAnnotation makeElementAnnotation() throws BuildException {

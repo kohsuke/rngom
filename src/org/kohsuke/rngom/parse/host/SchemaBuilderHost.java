@@ -59,8 +59,8 @@ public class SchemaBuilderHost extends Base implements SchemaBuilder {
         CommentListHost comments = (CommentListHost) _comments;
         
         return new ParsedPatternHost(
-            lhs.commentAfter(p.lhs, comments.lhs),
-            rhs.commentAfter(p.rhs, comments.rhs));
+            lhs.commentAfter(p.lhs, comments==null?null:comments.lhs),
+            rhs.commentAfter(p.rhs, comments==null?null:comments.rhs));
     }
     
     public ParsedPattern expandPattern(ParsedPattern _p) throws BuildException, IllegalSchemaException {
@@ -146,8 +146,8 @@ public class SchemaBuilderHost extends Base implements SchemaBuilder {
         CommentListHost comments = (CommentListHost) _comments;
         
         return new ElementAnnotationBuilderHost(
-            lhs.makeElementAnnotationBuilder(ns, localName, prefix, loc.lhs, comments.lhs, context),
-            rhs.makeElementAnnotationBuilder(ns, localName, prefix, loc.rhs, comments.rhs, context) );
+            lhs.makeElementAnnotationBuilder(ns, localName, prefix, loc.lhs, comments==null?null:comments.lhs, context),
+            rhs.makeElementAnnotationBuilder(ns, localName, prefix, loc.rhs, comments==null?null:comments.rhs, context) );
     }
     
     public ParsedPattern makeEmpty(Location _loc, Annotations _anno) {

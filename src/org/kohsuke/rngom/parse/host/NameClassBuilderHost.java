@@ -45,8 +45,8 @@ final class NameClassBuilderHost extends Base implements NameClassBuilder {
         CommentListHost comments = (CommentListHost) _comments;
         
         return new ParsedNameClassHost(
-            lhs.commentAfter(nc.lhs, comments.lhs),
-            rhs.commentAfter(nc.rhs, comments.rhs));
+            lhs.commentAfter(nc.lhs, comments==null?null:comments.lhs),
+            rhs.commentAfter(nc.rhs, comments==null?null:comments.rhs));
     }
 
     public ParsedNameClass makeChoice(ParsedNameClass[] _nameClasses, int nNameClasses, Location _loc, Annotations _anno) {

@@ -36,6 +36,10 @@
 	
 	<target name="jar" depends="compile">
 		<tstamp/>
+		<zip destfile="build/rngom-src.zip">
+			<fileset dir="src" includes="**/*"/>
+			<fileset dir="qname" includes="**/*"/>
+		</zip>
 		<jar destfile="build/jax-qname.jar">
 			<fileset dir="build/qname-classes" includes="**/*.class"/>
 		</jar>

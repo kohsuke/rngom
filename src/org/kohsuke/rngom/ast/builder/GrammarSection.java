@@ -26,6 +26,19 @@ public interface GrammarSection {
 
     static final String START = new String("#start");
 
+    /**
+     * Called when a pattern is defined.
+     *
+     * @param name
+     *      Name of the pattern. For the definition by a &lt;start/> element,
+     *      this parameter is the same as {@link #START}. (IOW, use <tt>name==START</tt>}
+     *      to test if it's a named pattern definition or the start pattern definition.
+     * @param combine
+     *      null or {@link #COMBINE_CHOICE} or {@link #COMBINE_INTERLEAVE} depending
+     *      on the value of the combine attribute.
+     * @param pattern
+     *      The pattern to be defined.
+     */
     void define(
         String name,
         Combine combine,

@@ -29,8 +29,8 @@ class AnnotationsHost extends Base implements Annotations {
     
     public void addComment(CommentList _comments) throws BuildException {
         CommentListHost comments = (CommentListHost) _comments;
-        lhs.addComment(comments.lhs);
-        rhs.addComment(comments.rhs);
+        lhs.addComment(comments==null?null:comments.lhs);
+        rhs.addComment(comments==null?null:comments.rhs);
     }
     
     public void addElement(ParsedElementAnnotation _ea) throws BuildException {

@@ -52,8 +52,8 @@ public class GrammarSectionHost extends Base implements GrammarSection {
     
     public void topLevelComment(CommentList _comments) throws BuildException {
         CommentListHost comments = (CommentListHost) _comments;
-        
-        lhs.topLevelComment(comments.lhs);
-        rhs.topLevelComment(comments.rhs);
+
+        lhs.topLevelComment(comments==null?null:comments.lhs);
+        rhs.topLevelComment(comments==null?null:comments.rhs);
     }
 }
