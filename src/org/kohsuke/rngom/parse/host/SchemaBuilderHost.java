@@ -76,9 +76,11 @@ public class SchemaBuilderHost extends Base implements SchemaBuilder {
     
     public Annotations makeAnnotations(CommentList _comments, Context context) {
         CommentListHost comments = (CommentListHost) _comments;
-        return new AnnotationsHost(
-            lhs.makeAnnotations((comments!=null)?comments.lhs:null, context),
-            rhs.makeAnnotations((comments!=null)?comments.rhs:null, context) );
+        Annotations l = lhs.makeAnnotations((comments!=null)?comments.lhs:null, context);
+        Annotations r = rhs.makeAnnotations((comments!=null)?comments.rhs:null, context);
+        if(l==null || r==null)
+            throw new IllegalArgumentException("annotations cannot be null");
+        return new AnnotationsHost(l,r);
     }
     
     public ParsedPattern makeAttribute(ParsedNameClass _nc, ParsedPattern _p,

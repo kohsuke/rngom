@@ -18,8 +18,6 @@ class AnnotationsHost extends Base implements Annotations {
     AnnotationsHost( Annotations lhs, Annotations rhs ) {
         this.lhs = lhs;
         this.rhs = rhs;
-        if(lhs==null || rhs==null)
-            throw new IllegalArgumentException("annotations are null");
     }
     
     public void addAttribute(String ns, String localName, String prefix,
