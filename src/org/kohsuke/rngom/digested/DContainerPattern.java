@@ -22,7 +22,7 @@ public abstract class DContainerPattern extends DPattern implements Iterable<DPa
 
     public int countChildren() {
         int i=0;
-        for( DPattern p=firstChild(); p!=null; p=p.next())
+        for( DPattern p=firstChild(); p!=null; p=p.next)
             i++;
         return i;
     }
@@ -36,7 +36,7 @@ public abstract class DContainerPattern extends DPattern implements Iterable<DPa
 
             public DPattern next() {
                 DPattern r = next;
-                next = next.next();
+                next = next.next;
                 return r;
             }
 

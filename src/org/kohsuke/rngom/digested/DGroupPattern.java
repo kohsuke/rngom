@@ -7,7 +7,7 @@ package org.kohsuke.rngom.digested;
  */
 public class DGroupPattern extends DContainerPattern {
     public boolean isNullable() {
-        for( DPattern p=firstChild(); p!=null; p=p.next() )
+        for( DPattern p=firstChild(); p!=null; p=p.next )
             if(!p.isNullable())
                 return false;
         return true;

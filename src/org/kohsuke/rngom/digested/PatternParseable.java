@@ -73,7 +73,7 @@ final class PatternParseable implements Parseable {
 
         public ParsedPattern onChoice(DChoicePattern p) {
             List<ParsedPattern> kids = new ArrayList<ParsedPattern>();
-            for( DPattern c=p.firstChild(); c!=null; c=c.next() )
+            for( DPattern c=p.firstChild(); c!=null; c=c.next )
                 kids.add( (ParsedPattern)c.accept(this) );
             return sb.makeChoice(kids,parseLocation(p),null);
         }
@@ -104,14 +104,14 @@ final class PatternParseable implements Parseable {
 
         public ParsedPattern onGroup(DGroupPattern p) {
             List<ParsedPattern> kids = new ArrayList<ParsedPattern>();
-            for( DPattern c=p.firstChild(); c!=null; c=c.next() )
+            for( DPattern c=p.firstChild(); c!=null; c=c.next )
                 kids.add( (ParsedPattern)c.accept(this) );
             return sb.makeGroup(kids,parseLocation(p),null);
         }
 
         public ParsedPattern onInterleave(DInterleavePattern p) {
             List<ParsedPattern> kids = new ArrayList<ParsedPattern>();
-            for( DPattern c=p.firstChild(); c!=null; c=c.next() )
+            for( DPattern c=p.firstChild(); c!=null; c=c.next )
                 kids.add( (ParsedPattern)c.accept(this) );
             return sb.makeInterleave(kids,parseLocation(p),null);
         }

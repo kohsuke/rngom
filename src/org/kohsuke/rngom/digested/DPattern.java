@@ -19,14 +19,6 @@ public abstract class DPattern implements ParsedPattern {
     DPattern next;
     DPattern prev;
 
-    public DPattern next() {
-        return next;
-    }
-
-    public DPattern prev() {
-        return prev;
-    }
-
     /**
      * Returns where the pattern is defined in the source code.
      */
@@ -60,5 +52,19 @@ public abstract class DPattern implements ParsedPattern {
      */
     public Parseable createParseable() {
         return new PatternParseable(this);
+    }
+
+    /**
+     * Returns true if this is {@link DElementPattern}.
+     */
+    public final boolean isElement() {
+        return this instanceof DElementPattern;
+    }
+
+    /**
+     * Returns true if this is {@link DAttributePattern}.
+     */
+    public final boolean isAttribute() {
+        return this instanceof DAttributePattern;
     }
 }
