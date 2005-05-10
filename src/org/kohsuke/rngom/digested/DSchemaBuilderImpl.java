@@ -19,18 +19,37 @@ import org.kohsuke.rngom.nc.NameClassBuilderImpl;
 import org.kohsuke.rngom.parse.Context;
 import org.kohsuke.rngom.parse.IllegalSchemaException;
 import org.kohsuke.rngom.parse.Parseable;
+import org.w3c.dom.Document;
 import org.xml.sax.Locator;
 
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.util.List;
 
 /**
  * Parses as {@link Parseable} into a {@link DPattern}.
- * 
+ *
  * @author Kohsuke Kawaguchi (kk@kohsuke.org)
  */
 public class DSchemaBuilderImpl implements SchemaBuilder {
 
     private final NameClassBuilder ncb = new NameClassBuilderImpl();
+
+    /**
+     * Used to parse annotations.
+     */
+    private final Document dom;
+
+    public DSchemaBuilderImpl() {
+        try {
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            dbf.setNamespaceAware(true);
+            this.dom = dbf.newDocumentBuilder().newDocument();
+        } catch (ParserConfigurationException e) {
+            // impossible
+            throw new InternalError(e.getMessage());
+        }
+    }
 
     public NameClassBuilder getNameClassBuilder() throws BuildException {
         return ncb;
@@ -147,7 +166,7 @@ public class DSchemaBuilderImpl implements SchemaBuilder {
     }
 
     public ElementAnnotationBuilder makeElementAnnotationBuilder(String ns, String localName, String prefix, Location loc, CommentList comments, Context context) {
-        return new ElementAnnotationBuilderImpl();
+        return new ElementAnnotationBuilderImpl(dom.createElementNS(ns,localName));
     }
 
     public CommentList makeCommentList() {

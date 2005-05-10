@@ -1,6 +1,7 @@
 package org.kohsuke.rngom.digested;
 
 import org.xml.sax.Locator;
+import org.w3c.dom.Element;
 
 import javax.xml.namespace.QName;
 import java.util.Map;
@@ -9,6 +10,8 @@ import java.util.List;
 import java.util.ArrayList;
 
 /**
+ * Annotation.
+ *
  * @author Kohsuke Kawaguchi (kk@kohsuke.org)
  */
 public class DAnnotation {
@@ -21,17 +24,17 @@ public class DAnnotation {
     /**
      * Keyed by QName.
      */
-    final Map attributes = new HashMap();
+    final Map<QName,Attribute> attributes = new HashMap<QName,Attribute>();
 
     /**
      * List of nested elements.
      */
-    final List contents = new ArrayList();
+    final List<Element> contents = new ArrayList<Element>();
 
     /**
      * Attribute.
      */
-    public class Attribute {
+    public static class Attribute {
         private final String ns;
         private final String localName;
         private final String prefix;
@@ -80,6 +83,6 @@ public class DAnnotation {
     }
 
     public Attribute getAttribute( QName n ) {
-        return (Attribute)attributes.get(n);
+        return attributes.get(n);
     }
 }

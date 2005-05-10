@@ -6,6 +6,7 @@ import java.util.Stack;
 import java.util.Vector;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.kohsuke.rngom.ast.builder.Annotations;
 import org.kohsuke.rngom.ast.builder.CommentList;
@@ -1426,7 +1427,7 @@ private SAXParseable parseable;
         nameClasses[nNameClasses - 1] = nameClassBuilder.commentAfter(nameClasses[nNameClasses - 1], comments);
         comments = null;
       }
-      parent.endChild(nameClassBuilder.makeChoice(nameClasses, nNameClasses, startLocation, annotations));
+      parent.endChild(nameClassBuilder.makeChoice(Arrays.asList(nameClasses).subList(0,nNameClasses), startLocation, annotations));
     }
   }
 

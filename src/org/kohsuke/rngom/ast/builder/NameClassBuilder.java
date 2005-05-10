@@ -3,7 +3,8 @@ package org.kohsuke.rngom.ast.builder;
 import org.kohsuke.rngom.ast.om.Location;
 import org.kohsuke.rngom.ast.om.ParsedElementAnnotation;
 import org.kohsuke.rngom.ast.om.ParsedNameClass;
-import org.kohsuke.rngom.ast.om.ParsedPattern;
+
+import java.util.List;
 
 
 /**
@@ -21,7 +22,7 @@ public interface NameClassBuilder<
     N annotate(N nc, A anno) throws BuildException;
     N annotateAfter(N nc, E e) throws BuildException;
     N commentAfter(N nc, CL comments) throws BuildException;
-    N makeChoice(N[] nameClasses, int nNameClasses, L loc, A anno);
+    N makeChoice(List<N> nameClasses, L loc, A anno);
 
 // should be handled by parser - KK
 //    static final String INHERIT_NS = new String("#inherit");

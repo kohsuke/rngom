@@ -11,7 +11,9 @@ package org.kohsuke.rngom.parse.compact;
 import java.io.Reader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.List;
@@ -121,7 +123,7 @@ public class CompactSyntax implements Context {
         return p;
     }
     catch (ParseException e) {
-      error("syntax_error", e.currentToken.next);
+      error("syntax_error", e.getMessage(), e.currentToken.next);
     }
     catch (EscapeSyntaxException e) {
       reportEscapeSyntaxException(e);
@@ -136,7 +138,7 @@ public class CompactSyntax implements Context {
         return p;
     }
     catch (ParseException e) {
-      error("syntax_error", e.currentToken.next);
+      error("syntax_error", e.getMessage(), e.currentToken.next);
     }
     catch (EscapeSyntaxException e) {
       reportEscapeSyntaxException(e);
@@ -777,7 +779,7 @@ ParsedNameClass NameClassAlternatives(int context, ParsedNameClass nc, Annotatio
         a = pa[0];
         pa[0] = null;
       }
-      nc = ncb.makeChoice(nameClasses, nNameClasses, makeLocation(t), a);
+      nc = ncb.makeChoice(Arrays.asList(nameClasses).subList(0,nNameClasses), makeLocation(t), a);
     }
   )?
   { return nc; }
@@ -904,7 +906,7 @@ ParsedNameClass ParenNameClass(int context, Annotations a) :
   t = "(" nc = NameClass(context, pa) { nc = afterComments(nc); } ")"
   {
     if (pa[0] != null)
-      nc = ncb.makeChoice(new ParsedNameClass[] { nc }, 1, makeLocation(t), pa[0]);
+      nc = ncb.makeChoice(Collections.singletonList(nc), makeLocation(t), pa[0]);
     return nc;
   }
 }

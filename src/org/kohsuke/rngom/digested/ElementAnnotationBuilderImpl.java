@@ -5,38 +5,39 @@ import org.kohsuke.rngom.ast.builder.CommentList;
 import org.kohsuke.rngom.ast.builder.ElementAnnotationBuilder;
 import org.kohsuke.rngom.ast.om.Location;
 import org.kohsuke.rngom.ast.om.ParsedElementAnnotation;
+import org.w3c.dom.Element;
 
 /**
  * @author Kohsuke Kawaguchi (kk@kohsuke.org)
  */
 class ElementAnnotationBuilderImpl implements ElementAnnotationBuilder {
+
+    private final Element e;
+
+    public ElementAnnotationBuilderImpl(Element e) {
+        this.e = e;
+    }
+
+
     public void addText(String value, Location loc, CommentList comments) throws BuildException {
-        // TODO
+        e.appendChild(e.getOwnerDocument().createTextNode(value));
     }
 
     public ParsedElementAnnotation makeElementAnnotation() throws BuildException {
-        // TODO
-        return null;
+        return new ElementWrapper(e);
     }
 
     public void addAttribute(String ns, String localName, String prefix, String value, Location loc) throws BuildException {
-        // TODO
-
+        e.setAttributeNS(ns,localName,value);
     }
 
     public void addElement(ParsedElementAnnotation ea) throws BuildException {
-        // TODO
-
+        e.appendChild(((ElementWrapper)ea).element);
     }
 
     public void addComment(CommentList comments) throws BuildException {
-        // TODO
-
     }
 
     public void addLeadingComment(CommentList comments) throws BuildException {
-        // TODO
-
     }
-
 }

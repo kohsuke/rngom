@@ -8,6 +8,8 @@ import org.kohsuke.rngom.ast.om.Location;
 import org.kohsuke.rngom.ast.om.ParsedElementAnnotation;
 import org.kohsuke.rngom.ast.om.ParsedNameClass;
 
+import java.util.List;
+
 /**
  * 
  * @author
@@ -37,10 +39,10 @@ public class NameClassBuilderImpl implements NameClassBuilder {
         return printer.result(factory.createNameClass());
     }
 
-    public ParsedNameClass makeChoice(ParsedNameClass[] nameClasses, int nNameClasses, Location loc, Annotations anno) {
+    public ParsedNameClass makeChoice(List nameClasses, Location loc, Annotations anno) {
         printer.name("makeChoice");
-        for( int i=0; i<nNameClasses; i++ )
-            printer.param(nameClasses[i]);
+        for( int i=0; i<nameClasses.size(); i++ )
+            printer.param(nameClasses.get(i));
         printer.param(loc).param(anno);
         return printer.result(factory.createNameClass());
     }

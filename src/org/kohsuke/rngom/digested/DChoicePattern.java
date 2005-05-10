@@ -1,6 +1,8 @@
 package org.kohsuke.rngom.digested;
 
 /**
+ * &lt;choice> pattern.
+ *
  * @author Kohsuke Kawaguchi (kk@kohsuke.org)
  */
 public class DChoicePattern extends DContainerPattern {
@@ -10,7 +12,7 @@ public class DChoicePattern extends DContainerPattern {
                 return true;
         return false;
     }
-    public Object accept( DPatternVisitor visitor ) {
+    public <V> V accept( DPatternVisitor<V> visitor ) {
         return visitor.onChoice(this);
     }
 }

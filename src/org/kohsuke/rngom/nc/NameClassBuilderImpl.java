@@ -7,6 +7,8 @@ import org.kohsuke.rngom.ast.builder.NameClassBuilder;
 import org.kohsuke.rngom.ast.om.Location;
 import org.kohsuke.rngom.ast.om.ParsedElementAnnotation;
 
+import java.util.List;
+
 
 /**
  * 
@@ -19,12 +21,10 @@ public class NameClassBuilderImpl<
     A extends Annotations<E,L,CL>,
     CL extends CommentList<L>> implements NameClassBuilder<NameClass,E,L,A,CL> {
     
-    public NameClass makeChoice(NameClass[] nameClasses, int nNameClasses, L loc, A anno) {
-      if (nNameClasses <= 0)
-        throw new IllegalArgumentException();
-      NameClass result = nameClasses[0];
-      for (int i = 1; i < nNameClasses; i++)
-        result = new ChoiceNameClass(result, nameClasses[i]);
+    public NameClass makeChoice(List<NameClass> nameClasses, L loc, A anno) {
+      NameClass result = nameClasses.get(0);
+      for (int i = 1; i < nameClasses.size(); i++)
+        result = new ChoiceNameClass(result, nameClasses.get(i));
       return result;
     }
 

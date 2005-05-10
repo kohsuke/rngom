@@ -8,10 +8,6 @@ import org.kohsuke.rngom.ast.om.ParsedElementAnnotation;
 import org.xml.sax.Locator;
 
 import javax.xml.namespace.QName;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author Kohsuke Kawaguchi (kk@kohsuke.org)
@@ -22,11 +18,11 @@ class Annotation implements Annotations {
 
     public void addAttribute(String ns, String localName, String prefix, String value, Location loc) throws BuildException {
         a.attributes.put(new QName(ns,localName,prefix),
-            a.new Attribute(ns,localName,prefix,value,(Locator)loc));
+            new DAnnotation.Attribute(ns,localName,prefix,value,(Locator)loc));
     }
 
     public void addElement(ParsedElementAnnotation ea) throws BuildException {
-        a.contents.add(ea);
+        a.contents.add(((ElementWrapper)ea).element);
     }
 
     public void addComment(CommentList comments) throws BuildException {

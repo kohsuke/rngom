@@ -8,6 +8,9 @@ import org.kohsuke.rngom.ast.om.Location;
 import org.kohsuke.rngom.ast.om.ParsedElementAnnotation;
 import org.kohsuke.rngom.ast.om.ParsedNameClass;
 
+import java.util.List;
+import java.util.ArrayList;
+
 /**
  * 
  * @author
@@ -49,19 +52,19 @@ final class NameClassBuilderHost extends Base implements NameClassBuilder {
             rhs.commentAfter(nc.rhs, comments==null?null:comments.rhs));
     }
 
-    public ParsedNameClass makeChoice(ParsedNameClass[] _nameClasses, int nNameClasses, Location _loc, Annotations _anno) {
-        ParsedNameClass[] lnc = new ParsedNameClass[nNameClasses];
-        ParsedNameClass[] rnc = new ParsedNameClass[nNameClasses];
-        for( int i=0; i<nNameClasses; i++ ) {
-            lnc[i] = ((ParsedNameClassHost)_nameClasses[i]).lhs;
-            rnc[i] = ((ParsedNameClassHost)_nameClasses[i]).rhs;
+    public ParsedNameClass makeChoice(List _nameClasses, Location _loc, Annotations _anno) {
+        List<ParsedNameClass> lnc = new ArrayList<ParsedNameClass>();
+        List<ParsedNameClass> rnc = new ArrayList<ParsedNameClass>();
+        for( int i=0; i<_nameClasses.size(); i++ ) {
+            lnc.add(((ParsedNameClassHost)_nameClasses.get(i)).lhs);
+            rnc.add(((ParsedNameClassHost)_nameClasses.get(i)).rhs);
         }
         LocationHost loc = cast(_loc);
         AnnotationsHost anno = cast(_anno);
         
         return new ParsedNameClassHost(
-            lhs.makeChoice( lnc, nNameClasses, loc.lhs, anno.lhs ),
-            rhs.makeChoice( rnc, nNameClasses, loc.rhs, anno.rhs ) );
+            lhs.makeChoice( lnc, loc.lhs, anno.lhs ),
+            rhs.makeChoice( rnc, loc.rhs, anno.rhs ) );
     }
 
     public ParsedNameClass makeName(String ns, String localName, String prefix, Location _loc, Annotations _anno) {
