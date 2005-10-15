@@ -12,10 +12,15 @@ import org.kohsuke.rngom.xml.util.WellKnownNamespaces;
 public class BuiltinDatatypeLibraryFactory implements DatatypeLibraryFactory {
     private final DatatypeLibrary builtinDatatypeLibrary;
     private final DatatypeLibrary compatibilityDatatypeLibrary;
-    
+    /**
+     * Target of delegation.
+     */
+    private final DatatypeLibraryFactory core;
+
     public BuiltinDatatypeLibraryFactory( DatatypeLibraryFactory coreFactory ) {
         builtinDatatypeLibrary = new BuiltinDatatypeLibrary(coreFactory);
         compatibilityDatatypeLibrary = new CompatibilityDatatypeLibrary(coreFactory);
+        this.core = coreFactory;
     }
     
     public DatatypeLibrary createDatatypeLibrary(String uri) {
@@ -23,6 +28,6 @@ public class BuiltinDatatypeLibraryFactory implements DatatypeLibraryFactory {
             return builtinDatatypeLibrary;
         if (uri.equals(WellKnownNamespaces.RELAX_NG_COMPATIBILITY_DATATYPES))
             return compatibilityDatatypeLibrary;
-        return null;
+        return core.createDatatypeLibrary(uri);
     }
 }
