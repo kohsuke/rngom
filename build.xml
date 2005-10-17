@@ -81,7 +81,8 @@
 		<jar destfile="build/rngom-sample.jar">
 			<manifest>
 				<attribute name="Main-Class" value="Main"/>
-				<attribute name="Class-Path" value="rngom-1.3.jar relaxngDatatype.jar jax-qname.jar"/>
+        <!-- add xsdlib.jar for the convenience of the user. -->
+        <attribute name="Class-Path" value="rngom-1.3.jar relaxngDatatype.jar jax-qname.jar xsdlib.jar"/>
 			</manifest>
 			
 			<fileset dir="build/test-classes" includes="**/*.class"/>
