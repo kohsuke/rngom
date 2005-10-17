@@ -98,6 +98,8 @@
 				includes="retroweaver.jar"/>
 			<zipfileset prefix="rngom-${DSTAMP}" dir="lib"
 				includes="relaxngDatatype.jar"/>
+      <zipfileset prefix="rngom-${DSTAMP}" dir="lib"
+        includes="xsdlib.jar"/>
 			<zipfileset prefix="rngom-${DSTAMP}" dir="build"
 				includes="javadoc/**/*"/>
 			<zipfileset prefix="rngom-${DSTAMP}" dir="."
