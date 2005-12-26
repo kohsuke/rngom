@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Annotation.
@@ -56,33 +57,92 @@ public class DAnnotation {
             this.loc = loc;
         }
 
+        /**
+         * Gets the namespace URI of this attribute.
+         *
+         * @return
+         *      can be empty (to represent the default namespace), but never null.
+         */
         public String getNs() {
             return ns;
         }
 
+        /**
+         * Gets the local name of this attribute.
+         *
+         * @return
+         *      always non-null.
+         */
         public String getLocalName() {
             return localName;
         }
 
+        /**
+         * Gets the prefix of thie attribute.
+         *
+         * @return
+         *      null if this attribute didn't have a prefix.
+         */
         public String getPrefix() {
             return prefix;
         }
 
+        /**
+         * Gets the attribute value.
+         *
+         * @return
+         *      never null.
+         */
         public String getValue() {
             return value;
         }
 
+        /**
+         * Gets the location in the source schema file where this annotation was present.
+         *
+         * @return
+         *      never null.
+         */
         public Locator getLoc() {
             return loc;
         }
     }
 
-
+    /**
+     * Gets the attribute of a given name.
+     *
+     * @param nsUri
+     *      can be empty but must not be null.
+     * @return
+     *      null if no such attribute is found.
+     */
     public Attribute getAttribute( String nsUri, String localName ) {
         return getAttribute(new QName(nsUri,localName));
     }
 
     public Attribute getAttribute( QName n ) {
         return attributes.get(n);
+    }
+
+    /**
+     * Gets the read-only view of all the attributes.
+     *
+     * @return
+     *      can be empty but never null.
+     *      the returned map is read-only.
+     */
+    public Map<QName,Attribute> getAttributes() {
+        return Collections.unmodifiableMap(attributes);
+    }
+
+    /**
+     * Gets the read-only view of all the child elements of this annotation.
+     *
+     * @return
+     *      can be empty but never null.
+     *      the returned list is read-only.
+     */
+    public List<Element> getChildren() {
+        return Collections.unmodifiableList(contents);
     }
 }
