@@ -47,9 +47,26 @@ public interface GrammarSection<
      *      The pattern to be defined.
      */
     void define( String name, Combine combine, P pattern, L loc, A anno) throws BuildException;
+
+    /**
+     * Called when an annotation is found.
+     */
     void topLevelAnnotation(E ea) throws BuildException;
+
+    /**
+     * Called when a comment is found.
+     */
     void topLevelComment(CL comments) throws BuildException;
+
+    /**
+     * Called when &lt;div> is found.
+     *
+     * @return
+     *      the returned {@link Div} object will receive callbacks for structures
+     *      inside the &lt;div> element.
+     */
     Div<P,E,L,A,CL> makeDiv();
+
     /**
      * Returns null if already in an include.
      */

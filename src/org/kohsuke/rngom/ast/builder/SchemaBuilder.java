@@ -76,6 +76,18 @@ public interface SchemaBuilder<
      */
     Grammar<P,E,L,A,CL> makeGrammar(Scope<P,E,L,A,CL> parent);
 
+    /**
+     * Called when annotation is found right inside a pattern
+     *
+     * such as,
+     *
+     * <pre><xmp>
+     * <element name="foo">     <!-- this becomes 'P' -->
+     *   <foreign:annotation /> <!-- this becomes 'A' -->
+     *   ...
+     * </element>
+     * </xmp></pre>
+     */
     P annotate(P p, A anno) throws BuildException;
 
     /**
@@ -86,7 +98,7 @@ public interface SchemaBuilder<
      * <pre><xmp>
      * <element name="foo">
      *   <empty />              <!-- this becomes 'P' -->
-     *   <foreign:annotation /> <!--- this becomes 'E' -->
+     *   <foreign:annotation /> <!-- this becomes 'E' -->
      * </element>
      * </xmp></pre>
      */
