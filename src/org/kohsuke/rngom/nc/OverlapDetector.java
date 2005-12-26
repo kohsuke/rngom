@@ -58,10 +58,6 @@ class OverlapDetector implements NameClassVisitor<Void> {
         return null;
     }
 
-    public Void visitError() {
-        return null;
-    }
-
     static boolean overlap(NameClass nc1, NameClass nc2) {
         if (nc2 instanceof SimpleNameClass) {
             SimpleNameClass snc = (SimpleNameClass) nc2;

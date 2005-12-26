@@ -35,8 +35,4 @@ public class NameClassWalker implements NameClassVisitor<Void> {
     public Void visitNull() {
         return null;
     }
-
-    public Void visitError() {
-        return null;
-    }
 }
