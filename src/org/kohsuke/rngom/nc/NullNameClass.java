@@ -30,7 +30,7 @@ final class NullNameClass extends NameClass {
         return false;
     }
 
-    private static Object readReplace() {
+    private Object readResolve() {
         return NameClass.NULL;
     }
 }
