@@ -1,17 +1,12 @@
 package org.kohsuke.rngom.digested;
 
-import org.kohsuke.rngom.ast.builder.Annotations;
 import org.kohsuke.rngom.ast.builder.BuildException;
-import org.kohsuke.rngom.ast.builder.CommentList;
 import org.kohsuke.rngom.ast.builder.DataPatternBuilder;
 import org.kohsuke.rngom.ast.builder.ElementAnnotationBuilder;
 import org.kohsuke.rngom.ast.builder.Grammar;
 import org.kohsuke.rngom.ast.builder.NameClassBuilder;
 import org.kohsuke.rngom.ast.builder.SchemaBuilder;
 import org.kohsuke.rngom.ast.builder.Scope;
-import org.kohsuke.rngom.ast.om.Location;
-import org.kohsuke.rngom.ast.om.ParsedElementAnnotation;
-import org.kohsuke.rngom.ast.om.ParsedNameClass;
 import org.kohsuke.rngom.ast.om.ParsedPattern;
 import org.kohsuke.rngom.ast.util.LocatorImpl;
 import org.kohsuke.rngom.nc.NameClass;
@@ -20,7 +15,6 @@ import org.kohsuke.rngom.parse.Context;
 import org.kohsuke.rngom.parse.IllegalSchemaException;
 import org.kohsuke.rngom.parse.Parseable;
 import org.w3c.dom.Document;
-import org.xml.sax.Locator;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -31,7 +25,8 @@ import java.util.List;
  *
  * @author Kohsuke Kawaguchi (kk@kohsuke.org)
  */
-public class DSchemaBuilderImpl implements SchemaBuilder {
+public class DSchemaBuilderImpl implements SchemaBuilder
+    <NameClass,DPattern,ElementWrapper,LocatorImpl,Annotation,CommentListImpl> {
 
     private final NameClassBuilder ncb = new NameClassBuilderImpl();
 
@@ -55,81 +50,81 @@ public class DSchemaBuilderImpl implements SchemaBuilder {
         return ncb;
     }
 
-    static  DPattern wrap( DPattern p, Location loc, Annotations anno ) {
-        p.location = (Locator)loc;
+    static  DPattern wrap( DPattern p, LocatorImpl loc, Annotation anno ) {
+        p.location = loc;
         if(anno!=null)
-            p.annotation = ((Annotation)anno).getResult();
+            p.annotation = anno.getResult();
         return p;
     }
 
-    static DContainerPattern addAll( DContainerPattern parent, List children) {
-        for( int i=0; i<children.size(); i++ )
-            parent.add( (DPattern)children.get(i) );
+    static DContainerPattern addAll( DContainerPattern parent, List<DPattern> children) {
+        for (DPattern c : children)
+            parent.add(c);
         return parent;
     }
 
-    static  DUnaryPattern addBody( DUnaryPattern parent, ParsedPattern _body, Location loc ) {
+    static DUnaryPattern addBody( DUnaryPattern parent, ParsedPattern _body, LocatorImpl loc ) {
         parent.setChild( (DPattern)_body );
         return parent;
     }
 
-    public ParsedPattern makeChoice(List patterns, Location loc, Annotations anno) throws BuildException {
+    public DPattern makeChoice(List<DPattern> patterns, LocatorImpl loc, Annotation anno) throws BuildException {
         return wrap(addAll(new DChoicePattern(),patterns),loc,anno);
     }
 
-    public ParsedPattern makeInterleave(List patterns, Location loc, Annotations anno) throws BuildException {
+    public DPattern makeInterleave(List<DPattern> patterns, LocatorImpl loc, Annotation anno) throws BuildException {
         return wrap(addAll(new DInterleavePattern(),patterns),loc,anno);
     }
 
-    public ParsedPattern makeGroup(List patterns, Location loc, Annotations anno) throws BuildException {
+    public DPattern makeGroup(List<DPattern> patterns, LocatorImpl loc, Annotation anno) throws BuildException {
         return wrap(addAll(new DGroupPattern(),patterns),loc,anno);
     }
 
-    public ParsedPattern makeOneOrMore(ParsedPattern p, Location loc, Annotations anno) throws BuildException {
+    public DPattern makeOneOrMore(DPattern p, LocatorImpl loc, Annotation anno) throws BuildException {
         return wrap(addBody(new DOneOrMorePattern(),p,loc),loc,anno);
     }
 
-    public ParsedPattern makeZeroOrMore(ParsedPattern p, Location loc, Annotations anno) throws BuildException {
+    public DPattern makeZeroOrMore(DPattern p, LocatorImpl loc, Annotation anno) throws BuildException {
         return wrap(addBody(new DZeroOrMorePattern(),p,loc),loc,anno);
     }
 
-    public ParsedPattern makeOptional(ParsedPattern p, Location loc, Annotations anno) throws BuildException {
+    public DPattern makeOptional(DPattern p, LocatorImpl loc, Annotation anno) throws BuildException {
         return wrap(addBody(new DOptionalPattern(),p,loc),loc,anno);
     }
 
-    public ParsedPattern makeList(ParsedPattern p, Location loc, Annotations anno) throws BuildException {
+    public DPattern makeList(DPattern p, LocatorImpl loc, Annotation anno) throws BuildException {
         return wrap(addBody(new DListPattern(),p,loc),loc,anno);
     }
 
-    public ParsedPattern makeMixed(ParsedPattern p, Location loc, Annotations anno) throws BuildException {
+    public DPattern makeMixed(DPattern p, LocatorImpl loc, Annotation anno) throws BuildException {
         return wrap(addBody(new DMixedPattern(),p,loc),loc,anno);
     }
 
-    public ParsedPattern makeEmpty(Location loc, Annotations anno) {
+    public DPattern makeEmpty(LocatorImpl loc, Annotation anno) {
         return wrap(new DEmptyPattern(),loc,anno);
     }
 
-    public ParsedPattern makeNotAllowed(Location loc, Annotations anno) {
+    public DPattern makeNotAllowed(LocatorImpl loc, Annotation anno) {
         return wrap(new DNotAllowedPattern(),loc,anno);
     }
 
-    public ParsedPattern makeText(Location loc, Annotations anno) {
+    public DPattern makeText(LocatorImpl loc, Annotation anno) {
         return wrap(new DTextPattern(),loc,anno);
     }
 
-    public ParsedPattern makeAttribute(ParsedNameClass nc, ParsedPattern p, Location loc, Annotations anno) throws BuildException {
-        return wrap(addBody(new DAttributePattern((NameClass)nc),p,loc),loc,anno);
+    public DPattern makeAttribute(NameClass nc, DPattern p, LocatorImpl loc, Annotation anno) throws BuildException {
+        return wrap(addBody(new DAttributePattern(nc),p,loc),loc,anno);
     }
 
-    public ParsedPattern makeElement(ParsedNameClass nc, ParsedPattern p, Location loc, Annotations anno) throws BuildException {
-        return wrap(addBody(new DElementPattern((NameClass)nc),p,loc),loc,anno);
+    public DPattern makeElement(NameClass nc, DPattern p, LocatorImpl loc, Annotation anno) throws BuildException {
+        return wrap(addBody(new DElementPattern(nc),p,loc),loc,anno);
     }
 
-    public DataPatternBuilder makeDataPatternBuilder(String datatypeLibrary, String type, Location loc) throws BuildException {
+    public DataPatternBuilder makeDataPatternBuilder(String datatypeLibrary, String type, LocatorImpl loc) throws BuildException {
         return new DataPatternBuilderImpl(datatypeLibrary,type,loc);
     }
 
-    public ParsedPattern makeValue(String datatypeLibrary, String type, String value, Context c, String ns, Location loc, Annotations anno) throws BuildException {
+    public DPattern makeValue(String datatypeLibrary, String type, String value, Context c, String ns, LocatorImpl loc, Annotation anno) throws BuildException {
         return wrap(new DValuePattern(datatypeLibrary,type,value,c.copy(),ns),loc,anno);
     }
 
@@ -137,35 +132,36 @@ public class DSchemaBuilderImpl implements SchemaBuilder {
         return new GrammarBuilderImpl(new DGrammarPattern(),parent,this);
     }
 
-    public ParsedPattern annotate(ParsedPattern p, Annotations anno) throws BuildException {
+    public DPattern annotate(DPattern p, Annotation anno) throws BuildException {
         // TODO: not sure when this is used
         return p;
     }
 
-    public ParsedPattern annotateAfter(ParsedPattern p, ParsedElementAnnotation e) throws BuildException {
+    public DPattern annotateAfter(DPattern p, ElementWrapper e) throws BuildException {
         // TODO
         return p;
     }
 
-    public ParsedPattern commentAfter(ParsedPattern p, CommentList comments) throws BuildException {
+    public DPattern commentAfter(DPattern p, CommentListImpl comments) throws BuildException {
         // TODO
         return p;
     }
 
-    public ParsedPattern makeExternalRef(Parseable current, String uri, String ns, Scope scope, Location loc, Annotations anno) throws BuildException, IllegalSchemaException {
+    public DPattern makeExternalRef(Parseable current, String uri, String ns,
+                                    Scope<DPattern, ElementWrapper, LocatorImpl, Annotation, CommentListImpl> scope, LocatorImpl loc, Annotation anno) throws BuildException, IllegalSchemaException {
         // TODO
         return null;
     }
 
-    public Location makeLocation(String systemId, int lineNumber, int columnNumber) {
+    public LocatorImpl makeLocation(String systemId, int lineNumber, int columnNumber) {
         return new LocatorImpl(systemId,lineNumber,columnNumber);
     }
 
-    public Annotations makeAnnotations(CommentList comments, Context context) {
+    public Annotation makeAnnotations(CommentListImpl comments, Context context) {
         return new Annotation();
     }
 
-    public ElementAnnotationBuilder makeElementAnnotationBuilder(String ns, String localName, String prefix, Location loc, CommentList comments, Context context) {
+    public ElementAnnotationBuilder makeElementAnnotationBuilder(String ns, String localName, String prefix, LocatorImpl loc, CommentListImpl comments, Context context) {
         String qname;
         if(prefix==null)
             qname = localName;
@@ -174,11 +170,11 @@ public class DSchemaBuilderImpl implements SchemaBuilder {
         return new ElementAnnotationBuilderImpl(dom.createElementNS(ns,qname));
     }
 
-    public CommentList makeCommentList() {
+    public CommentListImpl makeCommentList() {
         return null;
     }
 
-    public ParsedPattern makeErrorPattern() {
+    public DPattern makeErrorPattern() {
         return new DNotAllowedPattern();
     }
 
@@ -186,7 +182,7 @@ public class DSchemaBuilderImpl implements SchemaBuilder {
         return false;
     }
 
-    public ParsedPattern expandPattern(ParsedPattern p) throws BuildException, IllegalSchemaException {
+    public DPattern expandPattern(DPattern p) throws BuildException, IllegalSchemaException {
         return p;
     }
 }

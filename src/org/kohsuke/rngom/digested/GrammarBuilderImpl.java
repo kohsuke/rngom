@@ -10,10 +10,11 @@ import org.kohsuke.rngom.ast.builder.Scope;
 import org.kohsuke.rngom.ast.om.Location;
 import org.kohsuke.rngom.ast.om.ParsedElementAnnotation;
 import org.kohsuke.rngom.ast.om.ParsedPattern;
+import org.kohsuke.rngom.ast.util.LocatorImpl;
 import org.w3c.dom.Element;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Kohsuke Kawaguchi (kk@kohsuke.org)
@@ -86,6 +87,6 @@ class GrammarBuilderImpl implements Grammar, Div {
     }
 
     public ParsedPattern makeRef(String name, Location loc, Annotations anno) throws BuildException {
-        return DSchemaBuilderImpl.wrap( new DRefPattern(grammar.getOrAdd(name)), loc, anno );
+        return DSchemaBuilderImpl.wrap( new DRefPattern(grammar.getOrAdd(name)), (LocatorImpl)loc, (Annotation)anno );
     }
 }
