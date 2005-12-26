@@ -10,6 +10,10 @@ import org.kohsuke.rngom.ast.builder.Scope;
 import org.kohsuke.rngom.ast.om.Location;
 import org.kohsuke.rngom.ast.om.ParsedElementAnnotation;
 import org.kohsuke.rngom.ast.om.ParsedPattern;
+import org.w3c.dom.Element;
+
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * @author Kohsuke Kawaguchi (kk@kohsuke.org)
@@ -22,6 +26,12 @@ class GrammarBuilderImpl implements Grammar, Div {
 
     protected final DSchemaBuilderImpl sb;
 
+    /**
+     * Additional top-level element annotations.
+     * Can be null.
+     */
+    private List<Element> additionalElementAnnotations;
+
     public GrammarBuilderImpl(DGrammarPattern p, Scope parent, DSchemaBuilderImpl sb) {
         this.grammar = p;
         this.parent = parent;
@@ -29,6 +39,13 @@ class GrammarBuilderImpl implements Grammar, Div {
     }
 
     public ParsedPattern endGrammar(Location loc, Annotations anno) throws BuildException {
+        if(anno!=null)
+            grammar.annotation = ((Annotation)anno).getResult();
+        if(additionalElementAnnotations!=null) {
+            if(grammar.annotation==null)
+                grammar.annotation = new DAnnotation();
+            grammar.annotation.contents.addAll(additionalElementAnnotations);
+        }
         return grammar;
     }
 
@@ -48,7 +65,9 @@ class GrammarBuilderImpl implements Grammar, Div {
     }
 
     public void topLevelAnnotation(ParsedElementAnnotation ea) throws BuildException {
-        // TODO
+        if(additionalElementAnnotations==null)
+            additionalElementAnnotations = new ArrayList<Element>();
+        additionalElementAnnotations.add(((ElementWrapper)ea).element);
     }
 
     public void topLevelComment(CommentList comments) throws BuildException {
