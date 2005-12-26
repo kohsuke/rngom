@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 /**
+ * &lt;grammar> pattern, which is a collection of named patterns.
  *
  * @author Kohsuke Kawaguchi (kk@kohsuke.org)
  */
