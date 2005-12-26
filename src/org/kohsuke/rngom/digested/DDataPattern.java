@@ -15,12 +15,12 @@ public class DDataPattern extends DPattern {
     String datatypeLibrary;
     String type;
 
-    List params = new ArrayList();
+    final List<Param> params = new ArrayList<Param>();
 
     /**
      * Parameter to a data pattern.
      */
-    public class Param {
+    public final class Param {
         String name;
         String value;
         Context context;
@@ -62,18 +62,41 @@ public class DDataPattern extends DPattern {
         }
     }
 
+    /**
+     * Gets the datatype library URI.
+     *
+     * @return
+     *      Can be empty (which represents the built-in datatypes), but never null.
+     */
     public String getDatatypeLibrary() {
         return datatypeLibrary;
     }
 
+    /**
+     * Gets the datatype name, such as "int" or "token".
+     *
+     * @return
+     *      never null.
+     */
     public String getType() {
         return type;
     }
 
-    public List getParams() {
+    /**
+     * Gets the parameters of this &lt;data pattern.
+     *
+     * @return
+     *      can be empty but never null.
+     */
+    public List<Param> getParams() {
         return params;
     }
 
+    /**
+     * Gets the pattern that reprsents the &lt;except> child of this data pattern.
+     *
+     * @return null if not exist.
+     */
     public DPattern getExcept() {
         return except;
     }
