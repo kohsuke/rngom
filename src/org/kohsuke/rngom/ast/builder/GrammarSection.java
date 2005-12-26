@@ -46,13 +46,7 @@ public interface GrammarSection<
      * @param pattern
      *      The pattern to be defined.
      */
-    void define(
-        String name,
-        Combine combine,
-        P pattern,
-        L loc,
-        A anno)
-        throws BuildException;
+    void define( String name, Combine combine, P pattern, L loc, A anno) throws BuildException;
     void topLevelAnnotation(E ea) throws BuildException;
     void topLevelComment(CL comments) throws BuildException;
     Div<P,E,L,A,CL> makeDiv();
