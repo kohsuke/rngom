@@ -78,6 +78,18 @@ public interface SchemaBuilder<
 
     P annotate(P p, A anno) throws BuildException;
 
+    /**
+     * Called when element annotation is found after a pattern.
+     *
+     * such as,
+     *
+     * <pre><xmp>
+     * <element name="foo">
+     *   <empty />              <!-- this becomes 'P' -->
+     *   <foreign:annotation /> <!--- this becomes 'E' -->
+     * </element>
+     * </xmp></pre>
+     */
     P annotateAfter(P p, E e) throws BuildException;
 
     P commentAfter(P p, CL comments) throws BuildException;
