@@ -166,7 +166,12 @@ public class DSchemaBuilderImpl implements SchemaBuilder {
     }
 
     public ElementAnnotationBuilder makeElementAnnotationBuilder(String ns, String localName, String prefix, Location loc, CommentList comments, Context context) {
-        return new ElementAnnotationBuilderImpl(dom.createElementNS(ns,localName));
+        String qname;
+        if(prefix==null)
+            qname = localName;
+        else
+            qname = prefix+':'+localName;
+        return new ElementAnnotationBuilderImpl(dom.createElementNS(ns,qname));
     }
 
     public CommentList makeCommentList() {
