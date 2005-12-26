@@ -67,6 +67,20 @@ public abstract class NameClass implements ParsedNameClass, Serializable {
     /** Sigleton instance that represents "anyName". */
     public static final NameClass ANY = new AnyNameClass();
     
-    /** Sigleton instance that accepts no name. */
+    /**
+     * Sigleton instance that accepts no name.
+     *
+     * <p>
+     * This instance is useful when doing boolean arithmetic over
+     * name classes (such as computing an inverse of a given name class, etc),
+     * even though it can never appear in a RELAX NG surface syntax.
+     *
+     * <p>
+     * Internally, this instance is also used for:
+     * <ol>
+     *  <li>Used to recover from errors during parsing.
+     *  <li>Mark element patterns with &lt;notAllowed/> content model.
+     * </ol>
+     */
     public static final NameClass NULL = new NullNameClass();
 }
