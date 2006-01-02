@@ -12,7 +12,7 @@ public class DGroupPattern extends DContainerPattern {
                 return false;
         return true;
     }
-    public Object accept( DPatternVisitor visitor ) {
+    public <V> V accept( DPatternVisitor<V> visitor ) {
         return visitor.onGroup(this);
     }
 }

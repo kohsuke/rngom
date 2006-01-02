@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='utf-8'?>
+<grammar xmlns="http://relaxng.org/ns/structure/1.0"
+           xmlns:x="http://annotations">
+	<start>
+		<ref name="StartPattern"/>
+	</start>
+	<define name="StartPattern">
+		<element name="startElement">
+			<choice>
+				<group>
+					<oneOrMore>
+						<element name="listElement">
+							<empty/>
+						</element>
+					</oneOrMore>
+					<optional>
+						<attribute name="optionalAttribute"/>
+						<attribute name="intAttr">
+							<data type="integer" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes"/>
+						</attribute>
+					</optional>
+				</group>
+				<zeroOrMore>
+					<element name="listElement">
+						<attribute name="intExceptAttr">
+							<data type="integer" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+								<except>
+									<value type="integer" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">3</value>
+									<value ns="x" type="integer" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">5</value>
+								</except>
+							</data>
+						</attribute>
+					</element>
+				</zeroOrMore>
+			</choice>
+		</element>
+	</define>
+	<define name="EmptyPattern">
+		<notAllowed/>
+	</define>
+	<define name="YetAnotherPattern">
+		<interleave>
+			<list>
+				<value type="boolean" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">true</value>
+				<value type="boolean" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">false</value>
+			</list>
+			<mixed>
+				<element name="mixed">
+					<ref name="EmptyPattern"/>
+				</element>
+			</mixed>
+		</interleave>
+		<element>
+			<anyName/>
+			<text/>
+		</element>
+		<element>
+			<anyName>
+				<except>
+					<nsName ns="s"/>
+				</except>
+			</anyName>
+			<text/>
+		</element>
+		<element>
+			<choice>
+				<nsName ns="x">
+					<except>
+						<name>a</name>
+					</except>
+				</nsName>
+				<name>y</name>
+			</choice>
+			<text/>
+		</element>
+	</define>
+</grammar>
