@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <project name="rngom" default="jar">
+
   <taskdef name="retroweaver" classname="com.rc.retroweaver.RetroWeaverTask">
     <classpath>
      <fileset dir="lib/retroweaver" includes="*.jar"/>
@@ -110,7 +111,13 @@
 		</zip>
 	</target>
 	
+  <import file="build-taskdefs.xml" />
+  <target name="j2se-integration" depends="compile">
+    <package-rename srcdir="./src" destdir="j2se-integration/src" />
+  </target>
+
 	<target name="clean">
 		<delete dir="build"/>
+		<delete dir="j2se-integration"/>
 	</target>
 </project>
