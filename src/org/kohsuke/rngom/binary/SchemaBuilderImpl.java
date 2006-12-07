@@ -23,6 +23,7 @@ import org.kohsuke.rngom.ast.om.ParsedNameClass;
 import org.kohsuke.rngom.ast.om.ParsedPattern;
 import org.kohsuke.rngom.ast.util.LocatorImpl;
 import org.kohsuke.rngom.dt.builtin.BuiltinDatatypeLibraryFactory;
+import org.kohsuke.rngom.dt.CascadingDatatypeLibraryFactory;
 import org.kohsuke.rngom.nc.NameClass;
 import org.kohsuke.rngom.nc.NameClassBuilderImpl;
 import org.kohsuke.rngom.parse.Context;
@@ -92,7 +93,10 @@ public class SchemaBuilderImpl implements SchemaBuilder, ElementAnnotationBuilde
    *        Error handler to receive errors while building the schema.
    */
   public SchemaBuilderImpl(ErrorHandler eh) {
-      this(eh,new BuiltinDatatypeLibraryFactory(new DatatypeLibraryLoader()),new SchemaPatternBuilder());
+      this(eh,
+          new CascadingDatatypeLibraryFactory(new DatatypeLibraryLoader(),
+            new BuiltinDatatypeLibraryFactory(new DatatypeLibraryLoader())),
+          new SchemaPatternBuilder());
   }
 
   /**
