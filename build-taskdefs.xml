@@ -35,7 +35,7 @@
     <attribute name="destdir" />
     <sequential>
       <prename srcdir="@{srcdir}" destdir="@{destdir}">
-        <pattern from="org.kohsuke.rngom" to="com.sun.xml.internal.rngom" />
+        <pattern from="org.kohsuke.rngom" to="sun.xml.internal.rngom" />
       </prename>
     </sequential>
   </macrodef>
