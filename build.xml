@@ -65,22 +65,12 @@
     <target name="dist" depends="clean, javadoc, jar">
         <tstamp/>
         <zip zipfile="build/rngom-${DSTAMP}.zip">
-            <zipfileset prefix="rngom-${DSTAMP}" dir="build"
-   includes="*.jar"/>
-            <zipfileset prefix="rngom-${DSTAMP}" dir="lib
-
-
-            "
-   includes="relaxngDatatype.jar"/>
-            <zipfileset prefix="rngom-${DSTAMP}" dir="lib"
-                        includes="xsdlib.jar"/>
-            <zipfileset prefix="rngom-${DSTAMP}" dir="build"
-   includes="javadoc/**/*"/>
-            <zipfileset prefix="rngom-${DSTAMP}" dir="."
-   includes="src/**/*, test/**/*"
-   excludes="**/CVS" />
-            <zipfileset prefix="rngom-${DSTAMP}" dir="../www/doc"
-   includes="*" excludes="CVS" />
+            <zipfileset prefix="rngom-${DSTAMP}" dir="build" includes="*.jar"/>
+            <zipfileset prefix="rngom-${DSTAMP}" dir="lib" includes="relaxngDatatype.jar"/>
+            <zipfileset prefix="rngom-${DSTAMP}" dir="lib" includes="xsdlib.jar"/>
+            <zipfileset prefix="rngom-${DSTAMP}" dir="build" includes="javadoc/**/*"/>
+            <zipfileset prefix="rngom-${DSTAMP}" dir="." includes="src/**/*, test/**/*" excludes="**/CVS" />
+            <zipfileset prefix="rngom-${DSTAMP}" dir="../www/doc" includes="*" excludes="CVS" />
         </zip>
     </target>
 
