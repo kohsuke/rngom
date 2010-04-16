@@ -32,6 +32,35 @@
         </javadoc>
     </target>
 
+    <target name="jaxbjar">
+        <mkdir dir="build/classes"/>
+        <mkdir dir="build/qname-classes"/>
+        <mkdir dir="build/parsed-classes"/>
+        <javacc target="src/org/kohsuke/rngom/parse/compact/CompactSyntax.jj"
+                outputdirectory="src/org/kohsuke/rngom/parse/compact"
+                javacchome="lib/javacc" />
+        <javac source="1.5" srcdir="src" destdir="build/classes" debug="on">
+            <classpath>
+                <fileset dir="lib" includes="*.jar"/>
+                <pathelement path="build/qname-classes"/>
+            </classpath>
+        </javac>
+        <zip destfile="build/rngom-src.zip">
+            <fileset dir="src" includes="**/*"/>
+            <fileset dir="qname" includes="**/*"/>
+        </zip>
+        <jar destfile="build/rngom.jar">
+            <manifest>
+                <attribute name="Date" value="${TODAY}"/>
+                <attribute name="Class-Path" value="relaxngDatatype.jar jax-qname.jar"/>
+            </manifest>
+            <metainf dir="../www/doc" includes="jing-copying.html, LICENSE.txt"/>
+
+            <fileset dir="build/classes" includes="**/*.class"/>
+            <fileset dir="src" includes="**/*.properties"/>
+        </jar>
+    </target>
+
     <target name="jar" depends="compile">
         <tstamp/>
         <zip destfile="build/rngom-src.zip">
@@ -74,7 +103,8 @@
         </zip>
     </target>
 
-    <import file="build-taskdefs.xml" />
+    <import file="build-taskdefs.xml" optional="true"/>
+
     <target name="j2se-integration" depends="compile">
         <package-rename srcdir="./src" destdir="j2se-integration/src" />
     </target>
