@@ -53,7 +53,7 @@
                 <attribute name="Date" value="${TODAY}"/>
                 <attribute name="Class-Path" value="relaxngDatatype.jar jax-qname.jar"/>
             </manifest>
-            <metainf dir="www/doc" includes="jing-copying.html, LICENSE.txt"/>
+            <metainf dir="../www/doc" includes="jing-copying.html, LICENSE.txt"/>
 
             <fileset dir="build/classes" includes="**/*.class"/>
             <fileset dir="src" includes="**/*.properties"/>
