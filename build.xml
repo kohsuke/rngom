@@ -47,7 +47,6 @@
         </javac>
         <zip destfile="build/rngom-src.zip">
             <fileset dir="src" includes="**/*"/>
-            <fileset dir="qname" includes="**/*"/>
         </zip>
         <jar destfile="build/rngom.jar">
             <manifest>
