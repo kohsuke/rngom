@@ -6,7 +6,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.kohsuke.rngom</groupId>
 	<artifactId>rngom</artifactId>
-	<version>20100718-SNAPSHOT</version>
+	<version>20100718</version>
 	<packaging>jar</packaging>
 	<name>RELAX NG Object Model / Parser</name>
 	<description>RNGOM is an open-source Java library for parsing RELAX NG grammars.</description>
@@ -19,14 +19,20 @@
 		</license> 
 	</licenses> 
 	<scm>
-		<developerConnection>scm:cvs:pserver:username@cvs.dev.java.net:/cvs/rngom</developerConnection>
 		<url>https://rngom.dev.java.net/source/browse/rngom/</url>
+		<connection>scm:cvs:pserver:guest@cvs.dev.java.net:/cvs/rngom</connection>
+		<developerConnection>scm:cvs:pserver:username@cvs.dev.java.net:/cvs/rngom</developerConnection>
 	</scm>
 	<developers>
 		<developer>
 			<id>kohsuke</id>
 			<name>Kohsuke Kawaguchi</name>
 			<email>kohsuke.kawaguchi@sun.com</email>
+		</developer>
+		<developer>
+			<id>lexi</id>
+			<name>Aleksei Valikov</name>
+			<email>valikov@gmx.net</email>
 		</developer>
 	</developers>
 	<dependencies>
