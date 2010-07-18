@@ -10,7 +10,7 @@ import java.io.Reader;
 public class DXMLPrinterTest extends TestCase {
     protected void test(String resource) throws Exception {
         System.out.println(resource);
-        String in = "src/test/" + getClass().getPackage().getName().replace('.', '/') + '/' + resource;
+        String in = "test/" + getClass().getPackage().getName().replace('.', '/') + '/' + resource;
         String out = in + ".out";
         try {
             DXMLPrinter.main(new String[]{in, out});
@@ -22,6 +22,7 @@ public class DXMLPrinterTest extends TestCase {
             new File(out).delete();
         }
         catch (Exception e) {
+        	e.printStackTrace();
             assertTrue("Unexpected exception", false);
         }
     }
