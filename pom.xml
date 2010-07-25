@@ -19,9 +19,9 @@
 		</license> 
 	</licenses> 
 	<scm>
-		<url>https://rngom.dev.java.net/source/browse/rngom/</url>
-		<connection>scm:cvs:pserver:guest@cvs.dev.java.net:/cvs/rngom</connection>
-		<developerConnection>scm:cvs:pserver:username@cvs.dev.java.net:/cvs/rngom</developerConnection>
+		<url>https://rngom.dev.java.net/source/browse/rngom/rngom</url>
+		<connection>scm:cvs:pserver:guest@cvs.dev.java.net:/cvs/rngom/rngom</connection>
+		<developerConnection>scm:cvs:pserver:username@cvs.dev.java.net:/cvs/rngom/rngom</developerConnection>
 	</scm>
 	<developers>
 		<developer>
