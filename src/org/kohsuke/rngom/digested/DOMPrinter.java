@@ -110,12 +110,16 @@ class DOMPrinter {
             String prefix = node.getPrefix();
             if (prefix != null && prefix.equals("xmlns")) {
                 out.writeNamespace(prefix, node.getNamespaceURI());
-            } else {
+            } else if (prefix != null) {
                 out.writeAttribute(prefix
                     , node.getNamespaceURI()
                     , name
                     , node.getNodeValue()
                 );
+            } else {
+            	out.writeAttribute(node.getNamespaceURI()
+                        , name
+                        , node.getNodeValue());
             }
         }
     }

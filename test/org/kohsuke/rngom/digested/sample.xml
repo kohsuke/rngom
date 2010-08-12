@@ -1,0 +1,24 @@
+<library>
+	<book id="Book01" available="true">
+		<isbn>0001212121212</isbn>
+		<title xml:lang="en">Being a Dog Is a Full-Time Job</title>
+		<author id="CMS">
+			<name>Charles M Schulz</name>
+			<born>1922-11-26</born>
+			<died>2000-02-12</died>
+		</author>
+		<character id="PP">
+			<name>Peppermint Patty</name>
+			<born>1966-08-22</born>
+			<qualification>bold, brash, and tomboyish</qualification>
+		</character>
+		<character id="Snoopy">
+			<name>Snoopy the dog</name>
+			<qualification>white, likes to sleep on his kennel</qualification>
+		</character>
+		<character id="Lucy">
+			<name>Lucy Something</name>
+			<qualification>smart and bossy</qualification>
+		</character>
+	</book>
+</library>

@@ -1,0 +1,93 @@
+<?xml version="1.0" ?>
+<grammar xmlns="http://relaxng.org/ns/structure/1.0">
+	<start>
+		<element name="library">
+			<oneOrMore>
+				<element name="book">
+					<attribute name="id">
+						<data datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes" type="ID">
+							<param ns="" name="maxLength">16</param>
+						</data>
+					</attribute>
+					<attribute name="available">
+						<value datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes" type="boolean">true</value>
+					</attribute>
+					<element name="isbn">
+						<data datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes" type="token">
+							<param ns="" name="pattern">[0-9]{9}[0-9x]</param>
+						</data>
+					</element>
+					<element name="title">
+						<attribute name="lang">
+							<data datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes" type="language">
+								<param ns="" name="length">2</param>
+							</data>
+						</attribute>
+						<data datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes" type="token">
+							<param ns="" name="maxLength">255</param>
+						</data>
+					</element>
+					<zeroOrMore>
+						<element name="author" xmlns:qso="http://www.zenesis.com/qso/relaxng/1.0" qso:on-demand="true">
+							<attribute name="id">
+								<data datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes" type="ID">
+									<param ns="" name="maxLength">16</param>
+								</data>
+							</attribute>
+							<element name="name">
+								<data datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes" type="token">
+									<param ns="" name="maxLength">255</param>
+								</data>
+							</element>
+							<element name="born">
+								<data datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes" type="date">
+									<param ns="" name="minInclusive">1900-01-01</param>
+									<param ns="" name="maxInclusive">2099-12-31</param>
+									<param ns="" name="pattern">[0-9]{4}-[0-9]{2}-[0-9]{2}</param>
+								</data>
+							</element>
+							<optional>
+								<element name="died">
+									<data datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes" type="date">
+										<param ns="" name="minInclusive">1900-01-01</param>
+										<param ns="" name="maxInclusive">2099-12-31</param>
+										<param ns="" name="pattern">[0-9]{4}-[0-9]{2}-[0-9]{2}</param>
+									</data>
+								</element>
+							</optional>
+						</element>
+					</zeroOrMore>
+					<zeroOrMore>
+						<ref name="character-elem" xmlns:qso="http://www.zenesis.com/qso/relaxng/1.0" qso:on-demand="true"></ref>
+					</zeroOrMore>
+				</element>
+			</oneOrMore>
+		</element>
+	</start>
+	<define name="character-elem">
+		<element name="character">
+			<attribute name="id">
+				<data datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes" type="ID">
+					<param ns="" name="maxLength">16</param>
+				</data>
+			</attribute>
+			<element name="name">
+				<data datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes" type="token">
+					<param ns="" name="maxLength">255</param>
+				</data>
+			</element>
+			<element name="born">
+				<data datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes" type="date">
+					<param ns="" name="minInclusive">1900-01-01</param>
+					<param ns="" name="maxInclusive">2099-12-31</param>
+					<param ns="" name="pattern">[0-9]{4}-[0-9]{2}-[0-9]{2}</param>
+				</data>
+			</element>
+			<element name="qualification">
+				<data datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes" type="token">
+					<param ns="" name="maxLength">255</param>
+				</data>
+			</element>
+		</element>
+	</define>
+</grammar>

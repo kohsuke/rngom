@@ -1,0 +1,42 @@
+namespace qso = "http://www.zenesis.com/qso/relaxng/1.0"
+	
+grammar {
+	start = element library {
+		element book {
+			attribute id {xsd:ID {maxLength = "16"}},
+			attribute available {xsd:boolean "true"},
+			element isbn {xsd:token {pattern = "[0-9]{9}[0-9x]"}},
+			element title {
+				attribute xml:lang {xsd:language {length = "2"}},
+				xsd:token {maxLength="255"}
+			},
+			
+			[ qso:on-demand="true" ] element author {				
+				attribute id {xsd:ID {maxLength = "16"}},
+				element name {xsd:token {maxLength = "255"}},
+				element born {xsd:date {
+					minInclusive = "1900-01-01"
+					maxInclusive = "2099-12-31"
+					pattern = "[0-9]{4}-[0-9]{2}-[0-9]{2}"
+				}},
+				element died {xsd:date {
+					minInclusive = "1900-01-01"
+					maxInclusive = "2099-12-31"
+					pattern = "[0-9]{4}-[0-9]{2}-[0-9]{2}"
+				}}?
+			}*,
+			[ qso:on-demand="true" ] character-elem *
+		}+
+	}
+	
+	character-elem = element character {
+		attribute id {xsd:ID {maxLength = "16"}},
+		element name {xsd:token {maxLength = "255"}},
+		element born {xsd:date {
+			minInclusive = "1900-01-01"
+			maxInclusive = "2099-12-31"
+			pattern = "[0-9]{4}-[0-9]{2}-[0-9]{2}"
+		}},
+		element qualification {xsd:token {maxLength = "255"}}
+	}
+}
