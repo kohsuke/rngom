@@ -8,6 +8,11 @@
     <artifactId>rngom</artifactId>
     <version>201103-SNAPSHOT</version>
     <packaging>jar</packaging>
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>6</version>
+    </parent>
     <name>RELAX NG Object Model / Parser</name>
     <description>RNGOM is an open-source Java library for parsing RELAX NG grammars.</description>
     <url>http://rngom.java.net/</url>
