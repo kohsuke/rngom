@@ -1,4 +1,25 @@
 <?xml version="1.0"?>
+<!--
+ Copyright (C) 2004-2011 by Kohsuke Kawaguchi
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ THE SOFTWARE.
+-->
 <project
 	xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -101,6 +122,24 @@
         </resources>
         <plugins>
             <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>2.4.1</version>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>src</directory>
+                            <includes>
+                                <include>org/kohsuke/rngom/parse/compact/CompactSyntax*.java</include>
+                                <include>org/kohsuke/rngom/parse/compact/JavaChar*.java</include>
+                                <include>org/kohsuke/rngom/parse/compact/ParseException.java</include>
+                                <include>org/kohsuke/rngom/parse/compact/Token*.java</include>
+                            </includes>
+                            <followSymlinks>false</followSymlinks>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>javacc-maven-plugin</artifactId>
                 <version>2.6</version>
@@ -113,7 +152,38 @@
                         <configuration>
                             <sourceDirectory>src/org/kohsuke/rngom/parse/compact</sourceDirectory>
                             <outputDirectory>src/</outputDirectory>
+                            <supportClassVisibilityPublic>true</supportClassVisibilityPublic>
+                            <isStatic>false</isStatic>
+                            <tokenExtends></tokenExtends>
+                            <keepLineColumn></keepLineColumn>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <tasks>
+                                <taskdef name="licence" classname="com.sun.tools.LicenceTask">
+                                    <classpath>
+                                        <pathelement path="lib/lic.jar"/>
+                                    </classpath>
+                                </taskdef>
+                                <licence licence="licenceheader.txt">
+                                    <fileset dir="src" includes="org/kohsuke/rngom/parse/compact/CompactSyntax*.java, 
+                                    org/kohsuke/rngom/parse/compact/JavaChar*.java, 
+                                    org/kohsuke/rngom/parse/compact/ParseException.java, 
+                                    org/kohsuke/rngom/parse/compact/Token*.java"/>
+                                </licence>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
