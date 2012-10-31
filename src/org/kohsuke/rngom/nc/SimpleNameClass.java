@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2004-2011
+ * Copyright (C) 2004-2012
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,9 +30,9 @@ public class SimpleNameClass extends NameClass {
     public SimpleNameClass(QName name) {
         this.name = name;
     }
-    
-    public SimpleNameClass( String nsUri, String localPart ) {
-        this( new QName(nsUri,localPart) );
+
+    public SimpleNameClass(String nsUri, String localPart, String prefix) {
+        this(new QName(nsUri, localPart, prefix));
     }
 
     public boolean contains(QName name) {
@@ -50,8 +50,9 @@ public class SimpleNameClass extends NameClass {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj == null || !(obj instanceof SimpleNameClass))
+        if (obj == null || !(obj instanceof SimpleNameClass)) {
             return false;
+        }
         SimpleNameClass other = (SimpleNameClass) obj;
         return name.equals(other.name);
     }
