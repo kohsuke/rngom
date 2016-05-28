@@ -30,9 +30,9 @@
     <version>201605-SNAPSHOT</version>
     <packaging>jar</packaging>
     <parent>
-        <groupId>org.sonatype.oss</groupId>
-        <artifactId>oss-parent</artifactId>
-        <version>7</version>
+        <groupId>org.kohsuke</groupId>
+        <artifactId>pom</artifactId>
+        <version>14</version>
     </parent>
     <name>RELAX NG Object Model / Parser</name>
     <description>RNGOM is an open-source Java library for parsing RELAX NG grammars.</description>
@@ -49,10 +49,18 @@
         <url>http://java.net/jira/browse/RNGOM</url>
     </issueManagement>
     <scm>
-        <url>http://java.net/projects/rngom~svn/show/trunk/rngom</url>
-        <connection>scm:svn:https://svn.java.net/svn/rngom~svn/trunk/rngom</connection>
-        <developerConnection>scm:svn:https://svn.java.net/svn/rngom~svn/trunk/rngom</developerConnection>
+        <connection>scm:git:git@github.com/kohsuke/${project.artifactId}.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/kohsuke/${project.artifactId}.git</developerConnection>
+        <url>http://${project.artifactId}.kohsuke.org/</url>
+        <tag>HEAD</tag>
     </scm>
+
+    <distributionManagement>
+        <site>
+            <id>github-pages</id>
+            <url>gitsite:git@github.com/kohsuke/${project.artifactId}.git</url>
+        </site>
+    </distributionManagement>
     <developers>
         <developer>
             <id>snajper</id>
