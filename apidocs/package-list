@@ -1,0 +1,16 @@
+org.kohsuke.rngom.ast.builder
+org.kohsuke.rngom.ast.om
+org.kohsuke.rngom.ast.util
+org.kohsuke.rngom.binary
+org.kohsuke.rngom.binary.visitor
+org.kohsuke.rngom.digested
+org.kohsuke.rngom.dt
+org.kohsuke.rngom.dt.builtin
+org.kohsuke.rngom.nc
+org.kohsuke.rngom.parse
+org.kohsuke.rngom.parse.compact
+org.kohsuke.rngom.parse.host
+org.kohsuke.rngom.parse.xml
+org.kohsuke.rngom.util
+org.kohsuke.rngom.xml.sax
+org.kohsuke.rngom.xml.util

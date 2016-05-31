@@ -1,0 +1,24 @@
+-classpath
+'/home/kohsuke/ws/rngom/target/checkout/target/classes:/files/kohsuke/.m2/repository/javax/xml/stream/stax-api/1.0-2/stax-api-1.0-2.jar:/files/kohsuke/.m2/repository/relaxngDatatype/relaxngDatatype/20020414/relaxngDatatype-20020414.jar'
+-encoding
+'UTF-8'
+-protected
+-sourcepath
+'/home/kohsuke/ws/rngom/target/checkout/src'
+-author
+-bottom
+'Copyright &#169; 2016. All Rights Reserved.'
+-charset
+'UTF-8'
+-d
+'/home/kohsuke/ws/rngom/target/checkout/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'RELAX NG Object Model / Parser 201605 API'
+-link
+'http://java.sun.com/j2se/1.5.0/docs/api'
+-use
+-version
+-windowtitle
+'RELAX NG Object Model / Parser 201605 API'
