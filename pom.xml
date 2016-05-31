@@ -24,7 +24,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.kohsuke.rngom</groupId>
     <artifactId>rngom</artifactId>
-    <version>201605</version>
+    <version>201606-SNAPSHOT</version>
     <packaging>jar</packaging>
     <parent>
         <groupId>org.kohsuke</groupId>
@@ -49,7 +49,7 @@
         <connection>scm:git:git@github.com/kohsuke/${project.artifactId}.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/kohsuke/${project.artifactId}.git</developerConnection>
         <url>http://${project.artifactId}.kohsuke.org/</url>
-        <tag>rngom-201605</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <distributionManagement>
@@ -221,7 +221,7 @@
                                     </classpath>
                                 </taskdef>
                                 <licence licence="licenceheader.txt">
-                                    <fileset dir="src" includes="org/kohsuke/rngom/parse/compact/CompactSyntax*.java, org/kohsuke/rngom/parse/compact/JavaChar*.java,                                      org/kohsuke/rngom/parse/compact/ParseException.java,                                      org/kohsuke/rngom/parse/compact/Token*.java" />
+                                    <fileset dir="src" includes="org/kohsuke/rngom/parse/compact/CompactSyntax*.java, org/kohsuke/rngom/parse/compact/JavaChar*.java, org/kohsuke/rngom/parse/compact/ParseException.java,                                      org/kohsuke/rngom/parse/compact/Token*.java" />
                                 </licence>
                             </tasks>
                         </configuration>
