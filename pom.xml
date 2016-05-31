@@ -20,14 +20,11 @@
  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  THE SOFTWARE.
 -->
-<project
-	xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.kohsuke.rngom</groupId>
     <artifactId>rngom</artifactId>
-    <version>201605-SNAPSHOT</version>
+    <version>201605</version>
     <packaging>jar</packaging>
     <parent>
         <groupId>org.kohsuke</groupId>
@@ -52,7 +49,7 @@
         <connection>scm:git:git@github.com/kohsuke/${project.artifactId}.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/kohsuke/${project.artifactId}.git</developerConnection>
         <url>http://${project.artifactId}.kohsuke.org/</url>
-        <tag>HEAD</tag>
+        <tag>rngom-201605</tag>
     </scm>
 
     <distributionManagement>
@@ -204,8 +201,8 @@
                             <outputDirectory>src/</outputDirectory>
                             <supportClassVisibilityPublic>true</supportClassVisibilityPublic>
                             <isStatic>false</isStatic>
-                            <tokenExtends></tokenExtends>
-                            <keepLineColumn></keepLineColumn>
+                            <tokenExtends />
+                            <keepLineColumn />
                         </configuration>
                     </execution>
                 </executions>
@@ -220,14 +217,11 @@
                             <tasks>
                                 <taskdef name="licence" classname="com.sun.tools.LicenceTask">
                                     <classpath>
-                                        <pathelement path="lib/lic.jar"/>
+                                        <pathelement path="lib/lic.jar" />
                                     </classpath>
                                 </taskdef>
                                 <licence licence="licenceheader.txt">
-                                    <fileset dir="src" includes="org/kohsuke/rngom/parse/compact/CompactSyntax*.java, 
-                                    org/kohsuke/rngom/parse/compact/JavaChar*.java, 
-                                    org/kohsuke/rngom/parse/compact/ParseException.java, 
-                                    org/kohsuke/rngom/parse/compact/Token*.java"/>
+                                    <fileset dir="src" includes="org/kohsuke/rngom/parse/compact/CompactSyntax*.java, org/kohsuke/rngom/parse/compact/JavaChar*.java,                                      org/kohsuke/rngom/parse/compact/ParseException.java,                                      org/kohsuke/rngom/parse/compact/Token*.java" />
                                 </licence>
                             </tasks>
                         </configuration>
